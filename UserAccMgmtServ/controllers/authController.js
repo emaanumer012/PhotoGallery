@@ -1,5 +1,6 @@
 const User = require("../models/User")
 const jwt = require("jsonwebtoken")
+const axios = require("axios")
 
 const handleErrors = (err) => {
     console.log(err.message, err.code)
@@ -36,20 +37,18 @@ const createToken = (id) => {
     })
 }
 
-module.exports.signup_get = (req, res) => {
-    res.send({ name: "Ayesha", email: "Ayesha@gmail.com", password: "123" })
-}
-
-module.exports.login_get = (req, res) => {
-    res.send("data from login_get")
-}
-
+// create a user
 module.exports.signup_post = async (req, res) => {
     const { name, email, password } = req.body
     try {
-        const user = await User.create({ email, password })
+        const user = await User.create({ name, email, password })
         const token = createToken(user._id)
         res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
+        await axios.post("http://localhost:3003/events", {
+            type: "UserCreated",
+            data: user._id,
+        })
+
         res.status(201).json(user)
     } catch (err) {
         const errors = handleErrors(err)
@@ -57,6 +56,7 @@ module.exports.signup_post = async (req, res) => {
     }
 }
 
+// login a user
 module.exports.login_post = async (req, res) => {
     const { email, password } = req.body
     try {
@@ -71,7 +71,39 @@ module.exports.login_post = async (req, res) => {
     }
 }
 
+// logout a user   Problem: Giving axios network error
 module.exports.logout_get = async (req, res) => {
     res.cookie("jwt", "", { maxAge: 1 })
     res.redirect("/login")
+}
+
+// find a user by their email and returns all user data, including id.
+module.exports.user_get = async (req, res) => {
+    const userEmail = req.params.email
+
+    try {
+        // Fetch a specific user from MongoDB using the email
+        const user = await User.findOne(
+            { email: userEmail },
+            "name email password"
+        )
+
+        if (!user) {
+            // If the user with the given email is not found, return a 404 response
+            return res.status(404).json({ error: "User not found" })
+        }
+
+        // Format the data
+        const userData = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            password: user.password,
+        }
+
+        res.status(200).json(userData)
+    } catch (error) {
+        console.error("Error fetching user:", error)
+        res.status(500).json({ error: "Internal Server Error" })
+    }
 }
