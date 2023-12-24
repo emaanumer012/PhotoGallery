@@ -1,18 +1,28 @@
 import React from "react";
-import SideMenu from "./components/sideMenu";
+import ImageGrid from "./components/ImageGrid";
+import { useState } from "react";
+import 'bootstrap/dist/css/bootstrap.css';
+import DashboardNavbar from "./components/DashboardNavbar";
+import UsageMonitoring from "./components/UsageMonitoring"
+
+
 
 const Dashboard = () => {
+  const [images, setImages] = useState([]); 
+    const updateImages = (newImages) => {
+      setImages(newImages);
+    };
+
   return (
-    <div className="container-fluid">
-      <div className="row">
-        <div className="col-md-3 col-lg-2">
-          <SideMenu />
-        </div>
-        <div className="col-md-9 col-lg-10">
-          {/* Main content goes here */}
-        </div>
+    <div>
+      <div>
+      <DashboardNavbar/>
       </div>
-    </div>
+      <div>
+        <UsageMonitoring/>
+      </div>
+        <ImageGrid images={images} updateImages={updateImages} />
+      </div>
   );
 };
 

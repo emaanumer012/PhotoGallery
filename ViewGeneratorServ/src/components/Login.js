@@ -33,7 +33,10 @@ const Login = (props) => {
       email,
       password,
     });
-
+    
+    // Call onLogin to notify the parent component of successful login
+    props.onLogin();
+    
     setEmail("");
     setPassword("");
   };
@@ -119,7 +122,7 @@ const Login = (props) => {
                     className="btn btn-primary btn-lg"
                     style={{ width: "150px", marginLeft: "120px" }}
                   >
-                    Submit
+                    Login
                   </button>
                 </form>
                 <p className="mt-1" style={{ marginLeft: "140px" }}>
