@@ -22,8 +22,7 @@ function App() {
     setLoggedIn(!isLoggedIn);
   }
 
-}
-return (
+  return (
     <Router>
         <div>
             <Routes>
@@ -34,6 +33,8 @@ return (
         </div>
     </Router>
 )
+}
+
 
   // return (
   //   <div>
