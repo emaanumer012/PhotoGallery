@@ -1,0 +1,50 @@
+/* Updated CSS for adjusting spacing and alignment */
+.about-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 40px 20px; /* Adjust the top and bottom padding as needed */
+  background-color: #edeaea;
+}
+
+.about-content {
+  max-width: 500px;
+  text-align: left; /* Left justify the text */
+  z-index: 1;
+}
+
+.about-content h2 {
+  font-size: 2.5em;
+  color: #333;
+  margin-bottom: 10px; /* Adjust the bottom margin */
+}
+
+.about-content p {
+  font-size: 1.2em;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.about-image {
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+ 
+  position: absolute;
+  top: 50%;
+  right: 0; /* Set right to 0 to align the image to the right */
+  transform: translateY(-50%);
+  animation: floatAnimation 4s infinite alternate;
+  margin-right: 90px;
+}
+
+@keyframes floatAnimation {
+  from {
+    transform: translateY(-60%);
+  }
+  to {
+    transform: translateY(-55%);
+  }
+}

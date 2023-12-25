@@ -1,0 +1,25 @@
+.footer-container {
+  background-color: #0d66be; /* Set background color */
+  padding: 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fdfeff; /* Set text color */
+}
+
+.footer-logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.footer-logo span {
+  font-weight: bold;
+}
+
+.footer-text p {
+  margin: 0;
+}
+
+/* Add more styles as needed */

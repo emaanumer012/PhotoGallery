@@ -4,7 +4,9 @@ import Login from "./components/Login"
 import "bootstrap/dist/css/bootstrap.css"
 import { useState } from "react"
 import Dashboard from "./components/Dashboard"
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom"
+import { Routes, Route, BrowserRouter as Router} from "react-router-dom"
+import StaticPage from "./components/StaticPage"
+
 
 function App() {
   const [currentForm, setCurrentForm] = useState('Login');
@@ -22,17 +24,31 @@ function App() {
     setLoggedIn(!isLoggedIn);
   }
 
-  return (
-    <Router>
-        <div>
-            <Routes>
-                <Route path="/home" element={<Dashboard />} />
-                <Route path="/" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-            </Routes>
-        </div>
+//   return (
+//     <Router>
+//         <div>
+//             <Routes>
+//                 <Route path="/home" element={<Dashboard />} />
+//                 <Route path="/" element={<Login />} />
+//                 <Route path="/signup" element={<SignUp />} />
+//             </Routes>
+//         </div>
+//     </Router>
+// )
+
+return (
+  <Router>
+      <div>
+        <StaticPage />
+        {/* <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/home" element={<Dashboard />} />
+        </Routes> */}
+      </div>
     </Router>
-)
+);
+
 
 
 
