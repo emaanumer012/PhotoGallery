@@ -33,25 +33,32 @@ function App() {
         </div>
     </Router>
 )
+
+
+
+// return (
+//   <Router>
+//   <div>
+//     {
+//       isLoggedIn ? (
+//         <Dashboard />
+//       ) : (
+//         currentForm === 'Login' ? (
+//           <Login onFormSwitch={toggleForm} onLogin={handleLogin} />
+//         ) : (
+//           <SignUp onFormSwitch={toggleForm} />
+//         )
+//       )
+//     }
+//   </div>
+//   </Router>
+ 
+// );
+
+
 }
 
 
-  // return (
-  //   <div>
-  //     {
-  //       isLoggedIn ? (
-  //         <Dashboard />
-  //       ) : (
-  //         currentForm === 'Login' ? (
-  //           <Login onFormSwitch={toggleForm} onLogin={handleLogin} />
-  //         ) : (
-  //           <SignUp onFormSwitch={toggleForm} />
-  //         )
-  //       )
-  //     }
-  //   </div>
-   
-  // );
 export default App;
 
 
