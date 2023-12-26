@@ -9,37 +9,10 @@ const storageSchema = new mongoose.Schema({
         type: Number,
         min: 0,
     },
+    images: {
+        type: [],
+    },
 })
-
-// // function fires before document saved to the database
-// storageSchema.pre("save", async function (next) {
-//     try {
-//         const salt = await bcrypt.genSalt()
-//         this.password = await bcrypt.hash(this.password, salt)
-//         next()
-//     } catch (error) {
-//         next(error)
-//     }
-// })
-
-// function fires after document saved to the database
-// userSchema.post("save", function (doc, next) {
-//     console.log("new user was created and saved", doc)
-//     next() //done after every mongoose hook
-// })
-
-// //static method
-// storageSchema.statics.login = async function (email, password) {
-//     const user = await this.findOne({ email })
-//     if (user) {
-//         const auth = await bcrypt.compare(password, user.password)
-//         if (auth) {
-//             return user
-//         }
-//         throw Error("Password is incorrect")
-//     }
-//     throw Error("No user with this email exists")
-// }
 
 // find storage details based on id
 storageSchema.statics.retrieve = async function (userId) {
