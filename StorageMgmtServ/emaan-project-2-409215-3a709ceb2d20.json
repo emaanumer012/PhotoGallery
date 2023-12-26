@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "emaan-project-2-409215",
+  "private_key_id": "3a709ceb2d201a90f388627cec2b66c980f12622",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC0heVxmjt/IH5Z\ncrufkkaObwISDFxDqD9VF29Z4Jeaz3OTTIdAA6d+qDQAd1UtljlXtUFswMJDGaBv\nJYl0kYkZhtHH4VeZB1qtu9jzD/FFNyeuRJP28wU/qCxc9LF8Oiu+eKEkI5yWjBfq\nGyJn1/UhTZb+guqmr8//AWfW3CpSgKo5qVJl2Zzo603sPm5fl85DQ/uRe0nOxWxC\nNZogPUEPqTxGfSk/CuAsU+8PgulJryzwX2EMa0cVPJGGN8lCE6f2tQhZk16Z3ccQ\nHxtViy9WLve/2BAJa/jVKZzynYfpHyegxq1Z8M6ab+YwHqptV2FAqfRjDvKncpl7\nSE0UnpgJAgMBAAECggEABF4G5oAuN02gcOaLLnmZ9mEuIiSlaMedvJ/EBF8gG9Ew\nARzFWuGbwD8ufuJkL6WmPn52ljx1lqz8iiPU1vqcX/84fQbxGRUp9vEH9x1oH14N\nujQThlJrypX1eMw8rP41R7bgYyDvbV73RyUf6HY7inI3mHGvXpf7RraQfgy2g2dp\n6RBOfQK+b3UxY1JjO64lBIdWZ0MHdsKJD162euuwg6/ExaS0Clt6tHZtNfjTGCE9\ncz/e1LVSJowGN6/YyrPCX9KxR3Sg1TPag1QETxu11d9fVXdJFHrOHO9OV52QstcH\n8koYu0uBVHrZYCIiAnK980SKc6BeAc1KN+ki/4YwxwKBgQD/B6WY7WDMi1bD1fcw\nLmYhOlfONd31tqNRL922+n+n91/IcbWJ6JUoqtNZSo7qVz3JFQhfe/o0aVk9l4iF\nCMbUqLBpwOhu/ZwfVlDel787nkDRcpIhBlrF+LBLKh7j4bq5JyRy9n23N1TF7Jqv\ng9L5fhCWXFvC54uPQ6Yuw1T5AwKBgQC1NbFzWCRL7uBfDf/JXM8SFTeXbFY/irEH\noW+6MedYxZJwxw8zocd853Hx0d1Msu8Th8/EhLYKYJ4tyv2pDLpdql0/ESJfSh9P\nNu9QqXL+r0IobU3rLL5FtrReyyx8Z6sGhZM1Zo9TxtyAav3xSsIZxZZs7zx9Ti81\n8QQ42i2PAwKBgQCy1yPzeBN3nQb9UiCD8yW/i3BjtTavxqIEnvJ2DHhUy46pu8O4\nsBdZa2HGrhhGkWNMjalPfFtbQb1JCei8kgkMvDbqElNs8f/3ocoYLoX2QuXletiq\nvBAP4HOQYjtDRtpwWNigneZPA0g5e9CF4IWkXBk5uA7JQSKHFsOE64m9DQKBgB32\n2/n7yDy6KmXtda+BZkhSM9gZNQXa1D0zx7rdR6kZOoblk7Dw/oC78M6Q6mwlZn0v\nRv7zBvseUOm3mExc63BTnImyNqHVKuo5ZkdLTdWpe2Id+PV7d5cliBvostl7dv9k\nFRyOcgLjblDZ4FYHC6OhVad7w9/gjtP3n8Aa68+rAoGAKxO3qcPUgpX2Rll0LGkd\nyFDCB7uNgJcAJHuLlaQCTu4UiRcjeqw3FDf8KTnGejvQKPUJzWlLvpcD3DAOBrEC\n71y2hvUuu/RlHTZs1UtDASccV3hRsZ61wegfwxMro4aFGh5Ah4TVZeRR9dBgmpxY\nagKl9O+3y3IVZTFvscxCs1A=\n-----END PRIVATE KEY-----\n",
+  "client_email": "photo-gallery@emaan-project-2-409215.iam.gserviceaccount.com",
+  "client_id": "110866718927424849922",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/photo-gallery%40emaan-project-2-409215.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
