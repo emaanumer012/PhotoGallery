@@ -36,6 +36,9 @@ const Login = (props) => {
                 email,
                 password,
             })
+            // Call onLogin to notify the parent component of successful login
+    props.onLogin();
+    
             navigate("/home")
             setEmail("")
             setPassword("")

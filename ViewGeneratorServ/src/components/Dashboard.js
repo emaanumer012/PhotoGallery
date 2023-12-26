@@ -1,7 +1,11 @@
 import React from "react"
-import SideMenu from "./sideMenu"
+import DashboardNavbar from "./DashboardNavbar"
+import UsageMonitoring from "./UsageMonitoring"
+import ImageGrid from "./ImageGrid"
 import axios from "axios"
 import { useEffect, useState } from "react"
+import 'bootstrap/dist/css/bootstrap.css';
+
 
 const Dashboard = () => {
     const email = "emaanumer012@gmail.com"
@@ -44,6 +48,13 @@ const Dashboard = () => {
     useEffect(() => {
         fetchStorageDetails()
     }, [])
+
+    const [images, setImages] = useState([]); 
+    const updateImages = (newImages) => {
+      setImages(newImages);
+    };
+
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -55,6 +66,16 @@ const Dashboard = () => {
                 </div>
             </div>
         </div>
+//         <div>
+//       <div>
+//       <DashboardNavbar/>
+//       </div>
+//       <div>
+//         <UsageMonitoring/>
+//       </div>
+//         <ImageGrid images={images} updateImages={updateImages} />
+//       </div>
+
     )
 }
 
