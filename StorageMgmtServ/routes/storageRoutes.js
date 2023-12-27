@@ -13,6 +13,6 @@ router.post(
     multerUpload.single("image"),
     storageController.addimage_post
 )
-router.post("/users/:id/delete-image", storageController.deleteimage_post)
+router.post("/delete-image", storageController.deleteimage_post)
 
 module.exports = router

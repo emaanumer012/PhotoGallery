@@ -48,8 +48,8 @@ module.exports.signup_post = async (req, res) => {
             type: "UserCreated",
             data: user._id,
         })
-
-        res.status(201).json(user)
+        console.log({ user, token })
+        res.status(201).json({ user, token })
     } catch (err) {
         const errors = handleErrors(err)
         res.status(400).json(errors)
@@ -61,9 +61,11 @@ module.exports.login_post = async (req, res) => {
     const { email, password } = req.body
     try {
         const user = await User.login(email, password)
-        const token = createToken(user._id)
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
-        res.status(200).json({ user: user._id })
+        if (user) {
+            const token = createToken(user._id)
+            res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
+            res.status(200).json({ user: user._id, token: `Bearer ${token}` })
+        }
     } catch (err) {
         const errors = handleErrors(err)
         console.log(errors)
@@ -79,31 +81,38 @@ module.exports.logout_get = async (req, res) => {
 
 // find a user by their email and returns all user data, including id.
 module.exports.user_get = async (req, res) => {
-    const userEmail = req.params.email
-
     try {
-        // Fetch a specific user from MongoDB using the email
-        const user = await User.findOne(
-            { email: userEmail },
-            "name email password"
-        )
+        // Extract user ID from the token
+        const token = req.cookies.jwt
+        console.log(token)
+        const decodedToken = jwt.verify(token, "cloud computing")
+        const userId = decodedToken.id
+
+        // Fetch user details from MongoDB using the user ID
+        const user = await User.findById(userId, "name email")
 
         if (!user) {
-            // If the user with the given email is not found, return a 404 response
+            // If the user with the given ID is not found, return a 404 response
             return res.status(404).json({ error: "User not found" })
         }
 
         // Format the data
         const userData = {
-            id: user._id,
+            id: userId,
             name: user.name,
             email: user.email,
-            password: user.password,
         }
 
-        res.status(200).json(userData)
+        res.status(200).json(userData, token)
     } catch (error) {
+        // Handle token verification errors or database query errors
         console.error("Error fetching user:", error)
-        res.status(500).json({ error: "Internal Server Error" })
+        if (error.name === "TokenExpiredError") {
+            res.status(401).json({ error: "Token expired" })
+        } else if (error.name === "JsonWebTokenError") {
+            res.status(401).json({ error: "Invalid token" })
+        } else {
+            res.status(500).json({ error: "Internal Server Error" })
+        }
     }
 }

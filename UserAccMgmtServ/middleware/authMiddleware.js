@@ -1,5 +1,21 @@
 const jwt = require("jsonwebtoken")
 
+const verify = (req, res, next) => {
+    const authHeader = req.headers["authorization"]
+    if (authHeader) {
+        const token = authHeader.split(" ")[1]
+        jwt.verify(token, "cloud computing", (err, decoded) => {
+            if (err) {
+                return res.status(403).json("Token is not valid!")
+            }
+            req.tokenData = decoded
+            next()
+        })
+    } else {
+        res.status(401).json("You are not authenticated")
+    }
+}
+
 const requireAuth = (req, res, next) => {
     // get the cookie
     const token = req.cookies.jwt
@@ -42,4 +58,4 @@ const checkUser = (req, res, next) => {
     }
 }
 
-module.exports = { requireAuth, checkUser }
+module.exports = { requireAuth, checkUser, verify }
