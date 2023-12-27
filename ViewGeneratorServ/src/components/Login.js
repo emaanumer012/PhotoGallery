@@ -5,8 +5,9 @@ import email_icon from "./Assets/email.png"
 import password_icon from "./Assets/password.png"
 import display_image from "./Assets/displayimg.png"
 import { useNavigate } from "react-router-dom"
+import setAuthToken from "../utils/setAuthToken"
 
-const Login = (props) => {
+const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showAlert, setShowAlert] = useState(false)
@@ -32,13 +33,21 @@ const Login = (props) => {
         // Continue with form submission
 
         try {
-            await axios.post("http://localhost:3000/login", {
+            const res = await axios.post("http://localhost:3000/login", {
                 email,
                 password,
             })
+            // .then((response) => {
+            //     const token = response.data.token
+            //     localStorage.setItem("token", token)
+            //     setAuthToken(token)
+            // })
             // Call onLogin to notify the parent component of successful login
-    props.onLogin();
-    
+            // props.onLogin();
+            console.log(res.data)
+            const token = res.data.token
+            // Set the authentication token
+            setAuthToken(token)
             navigate("/home")
             setEmail("")
             setPassword("")

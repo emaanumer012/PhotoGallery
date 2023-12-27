@@ -6,8 +6,9 @@ import user_icon from "./Assets/person.png"
 import email_icon from "./Assets/email.png"
 import password_icon from "./Assets/password.png"
 import display_image from "./Assets/displayimg.png"
+import setAuthToken from "../utils/setAuthToken"
 
-const SignUp = (props) => {
+const SignUp = () => {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -31,11 +32,15 @@ const SignUp = (props) => {
         setShowAlert(false)
 
         try {
-            await axios.post("http://localhost:3000/signup", {
+            const res = await axios.post("http://localhost:3000/signup", {
                 name,
                 email,
                 password,
             })
+            console.log(res.data)
+            const token = res.data.token
+            // Set the authentication token
+            setAuthToken(token)
             navigate("/home")
         } catch (err) {
             // console.log(err.response.data)

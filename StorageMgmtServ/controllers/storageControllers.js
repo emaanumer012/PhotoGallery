@@ -1,5 +1,4 @@
 const storage = require("../models/Storage")
-const { uploadtoBucket } = require("../services/storageService")
 const Multer = require("multer")
 const uuid = require("uuid")
 const uuidv1 = uuid.v1
@@ -9,7 +8,7 @@ const bucket_storage = new Storage({
     keyFilename: `./emaan-project-2-409215-3a709ceb2d20.json`,
 })
 
-const bucketName = "dataset-emaan-bucket"
+const bucketName = "gallery-storage-bucket"
 const bucket = bucket_storage.bucket(bucketName)
 const multer = Multer({
     bucket_storage: Multer.memoryStorage(),
@@ -18,15 +17,36 @@ const multer = Multer({
 const handleErrors = (err) => {}
 let curr_user = {}
 
-// get storage for a current user based on id
 module.exports.checkstorage_get = async (req, res) => {
+    const options = {
+        version: "v4", // The API version for signed URLs (use 'v2' or 'v4')
+        action: "read", // The action to perform on the object (read, write, delete, etc.)
+        expires: Date.now() + 15 * 60 * 1000, // Timestamp (in milliseconds) when the URL expires
+    }
     const id = req.params.id
     try {
-        curr_user = await storage.retrieve(id)
-        res.status(200).json(curr_user)
+        curr_user = await storage.retrieveUserDetails(id)
+
+        // Array to store signed URLs for each image
+        const signedUrls = []
+
+        // Loop through each image and generate signed URL
+        for (const image of curr_user.images) {
+            const [url] = await bucket_storage
+                .bucket(bucketName)
+                .file(image.imageURL)
+                .getSignedUrl(options)
+
+            signedUrls.push({
+                fileName: image.originalName,
+                originalUrl: image.imageURL,
+                signedUrl: url,
+            })
+        }
+        res.status(200).json(signedUrls)
     } catch (err) {
-        console.log(err)
-        res.status(400).json(err)
+        console.error(err)
+        res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 }
 
@@ -44,10 +64,10 @@ module.exports.checkstorage_post = async (req, res) => {
 // add image for a current user
 module.exports.addimage_post = async (req, res) => {
     const userId = req.body.id
-    const fileSize = req.body.size
-
+    const fileSizeMB = req.body.size / (1024 * 1024)
+    console.log(curr_user.spaceOccupied)
     try {
-        if (curr_user.spaceOccupied + fileSize / (1024 * 1024) < 10) {
+        if (curr_user.spaceOccupied + fileSizeMB < 10) {
             const originalName = req.file.originalname
             const fileName = uuidv1() + "-" + originalName
             const blob = bucket.file(`${userId}/${fileName}`)
@@ -62,12 +82,16 @@ module.exports.addimage_post = async (req, res) => {
             })
 
             blobStream.on("finish", async () => {
-                const imageURL = `https://storage.googleapis.com/${bucketName}/${userId}/${blob.name}`
+                const imageURL = `${blob.name}`
 
                 // Update the user's document in the database
                 try {
-                    curr_user.images.push({ originalName, imageURL })
-                    curr_user.spaceOccupied += fileSize / (1024 * 1024)
+                    curr_user.images.push({
+                        originalName,
+                        imageURL,
+                        fileSizeMB,
+                    })
+                    curr_user.spaceOccupied += fileSizeMB
 
                     // Save the updated user document to the database
                     await storage.findOneAndUpdate(
@@ -104,4 +128,57 @@ module.exports.addimage_post = async (req, res) => {
 }
 
 // remove image for a current user
-module.exports.deleteimage_post = async (req, res) => {}
+module.exports.deleteimage_post = async (req, res) => {
+    const userId = req.body.id
+    const filePath = req.body.originalUrl
+
+    try {
+        const user = await storage.retrieveUserDetails(userId)
+
+        // Find the index of the image in the user's images array
+        const imageIndex = user.images.findIndex(
+            (image) => image.imageURL === filePath
+        )
+
+        if (imageIndex !== -1) {
+            // Get the size of the image to be deleted
+            const fileSizeMB = user.images[imageIndex].fileSizeMB
+
+            // Remove the image from the images array
+            user.images.splice(imageIndex, 1)
+
+            // Update the space occupied
+            user.spaceOccupied -= fileSizeMB
+
+            // Save the updated user document to the database
+            await storage.findOneAndUpdate(
+                { userId: user.userId },
+                {
+                    $set: {
+                        images: user.images,
+                        spaceOccupied: user.spaceOccupied,
+                    },
+                },
+                { new: true }
+            )
+
+            // Delete the file from the storage bucket
+            const file = bucket.file(filePath)
+            const exists = await file.exists()
+
+            if (exists[0]) {
+                await file.delete()
+                console.log("File deleted successfully.")
+            } else {
+                console.log("File does not exist.")
+            }
+
+            res.status(200).json({ success: true })
+        } else {
+            res.status(404).json({ success: false, error: "Image not found" })
+        }
+    } catch (error) {
+        console.error("Error deleting image:", error)
+        res.status(500).json({ success: false, error: "Internal server error" })
+    }
+}
