@@ -25,10 +25,34 @@ mongoose
 //     }
 // }
 
+const handleEvent = async (type, data) => {
+    if (type === "StorageCreated") {
+        console.log("Usage Created")
+        console.log(data)
+        await axios.post(`http://localhost:3002/users/${data}/usage`)
+
+        // type is 'ImageCreated' or 'ImageDeleted' for which same logic must be done.
+    } else {
+        try {
+            console.log(data.userId)
+            await axios.post(
+                `http://localhost:3002/users/${data.userId}/check-usage-time`
+            )
+            console.log(data)
+            await axios.post(
+                `http://localhost:3002/users/${data.userId}/${data.fileSizeMB}/add-usage`
+            )
+        } catch (err) {
+            console.log(err)
+        }
+    }
+}
+
 app.post("/events", (req, res) => {
-    // const { type, data } = req.body
-    // handleEvent(type, data)
-    // res.send({})
+    const { type, data } = req.body
+    console.log("getting" + data.userId + " from event bus")
+    handleEvent(type, data)
+    res.send({})
 })
 
 app.use(usageRoutes)

@@ -9,8 +9,9 @@ const ImageGrid = ({ images, updateImages }) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
+    const [uploadButton, setUploadButton] = useState(false)
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
-    let id = "658bb58e90aa138460f80da6"
+    let id = "658d578948f1f5a5fecd6721"
 
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
@@ -54,16 +55,11 @@ const ImageGrid = ({ images, updateImages }) => {
             formData.append("image", file)
             formData.append("id", id)
             formData.append("size", file.size)
-            const res = await axios.post(
-                "http://localhost:3001/add-image",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            )
-            console.log(res)
+            await axios.post("http://localhost:3001/add-image", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            })
             // For simplicity, we'll just add the new image to the existing images array.
             if (newImage) {
                 // Update the images state with the new image data
@@ -145,6 +141,7 @@ const ImageGrid = ({ images, updateImages }) => {
                         <button
                             className="btn btn-primary btn-lg"
                             onClick={handleUpload}
+                            disabled={uploadButton}
                         >
                             Upload Image
                         </button>

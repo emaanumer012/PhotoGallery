@@ -2,6 +2,7 @@ const storage = require("../models/Storage")
 const Multer = require("multer")
 const uuid = require("uuid")
 const uuidv1 = uuid.v1
+const axios = require("axios")
 const { Storage } = require("@google-cloud/storage")
 
 const bucket_storage = new Storage({
@@ -13,11 +14,23 @@ const bucket = bucket_storage.bucket(bucketName)
 const multer = Multer({
     bucket_storage: Multer.memoryStorage(),
 })
-
+let alerts = {}
 const handleErrors = (err) => {}
 let curr_user = {}
 
 module.exports.checkstorage_get = async (req, res) => {
+    const id = req.params.id
+    try {
+        const curr_storage = await storage.retrieveUserDetails(id)
+        console.log(curr_storage)
+        res.status(200).json(curr_storage.spaceOccupied)
+    } catch (err) {
+        console.error(err)
+        res.status(500).json({ success: false, error: "Internal Server Error" })
+    }
+}
+
+module.exports.getimages_get = async (req, res) => {
     const options = {
         version: "v4", // The API version for signed URLs (use 'v2' or 'v4')
         action: "read", // The action to perform on the object (read, write, delete, etc.)
@@ -57,6 +70,10 @@ module.exports.checkstorage_post = async (req, res) => {
         userId: id,
         spaceOccupied: 0,
         images: [],
+    })
+    await axios.post("http://localhost:3003/events", {
+        type: "StorageCreated",
+        data: id,
     })
     res.status(200).json(storage_space)
 }
@@ -104,8 +121,19 @@ module.exports.addimage_post = async (req, res) => {
                         },
                         { new: true }
                     )
-
+                    console.log(
+                        "sending" +
+                            userId +
+                            " and " +
+                            fileSizeMB +
+                            "to event bus"
+                    )
                     console.log("Image uploaded to bucket:", imageURL)
+                    await axios.post("http://localhost:3003/events", {
+                        type: "ImageAdded",
+                        data: { userId, fileSizeMB },
+                    })
+
                     res.status(200).json({ success: true, imageURL })
                 } catch (err) {
                     console.error("Error updating user document:", err)
@@ -169,6 +197,10 @@ module.exports.deleteimage_post = async (req, res) => {
             if (exists[0]) {
                 await file.delete()
                 console.log("File deleted successfully.")
+                await axios.post("http://localhost:3003/events", {
+                    type: "ImageDeleted",
+                    data: { userId, fileSizeMB },
+                })
             } else {
                 console.log("File does not exist.")
             }
@@ -182,3 +214,14 @@ module.exports.deleteimage_post = async (req, res) => {
         res.status(500).json({ success: false, error: "Internal server error" })
     }
 }
+
+// module.exports.alerts_post = async (req, res) => {
+//     const type = req.params.type
+//     const message = req.params.message
+//     alerts = { type: type, message: message }
+//     console.log(alerts)
+// }
+// module.exports.alerts_get = async (req, res) => {
+//     console.log("sending limit alert back")
+//     res.status(200).json(alerts)
+// }
