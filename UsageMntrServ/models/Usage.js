@@ -5,41 +5,25 @@ const usageSchema = new mongoose.Schema({
         type: String,
         unique: true,
     },
-    currLimit: {
+    currUsedLimit: {
         type: Number,
         min: 0,
+        set: (value) => parseFloat(value.toFixed(2)),
     },
+    resetDate: String,
 })
 
-// // function fires before document saved to the database
-// userSchema.pre("save", async function (next) {
-//     try {
-//         const salt = await bcrypt.genSalt()
-//         this.password = await bcrypt.hash(this.password, salt)
-//         next()
-//     } catch (error) {
-//         next(error)
-//     }
-// })
-
-// // function fires after document saved to the database
-// // userSchema.post("save", function (doc, next) {
-// //     console.log("new user was created and saved", doc)
-// //     next() //done after every mongoose hook
-// // })
-
-// //static method
-// usageSchema.statics.login = async function (email, password) {
-//     const user = await this.findOne({ email })
-//     if (user) {
-//         const auth = await bcrypt.compare(password, user.password)
-//         if (auth) {
-//             return user
-//         }
-//         throw Error("Password is incorrect")
-//     }
-//     throw Error("No user with this email exists")
-// }
+// find storage details based on id
+usageSchema.statics.retrieveUsageDetails = async function (userId) {
+    console.log(userId)
+    stringId = String(userId)
+    const usage = await this.findOne({ userId: stringId })
+    console.log(usage)
+    if (usage) {
+        return usage
+    }
+    throw Error("No user with this usage")
+}
 
 const Usage = mongoose.model("usage", usageSchema)
 module.exports = Usage

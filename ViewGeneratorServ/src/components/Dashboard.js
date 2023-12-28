@@ -5,17 +5,27 @@ import ImageGrid from "./ImageGrid"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
+import StorageMonitoring from "./StorageMonitoring"
 
 const Dashboard = () => {
     const [images, setImages] = useState([])
+    const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false) // Initial state
+    let id = "658d578948f1f5a5fecd6721"
+
+    const handleUsageMonitoringChange = (usageExceeded) => {
+        // Enable or disable the upload button based on the usage limit
+        setUploadButtonDisabled(usageExceeded)
+    }
+
+    const handleStorageMonitoringChange = (storageExceeded) => {
+        // Enable or disable the upload button based on the storage limit
+        setUploadButtonDisabled(storageExceeded)
+    }
+
     const fetchStorageDetails = async () => {
         try {
-            // const resp = await axios.get(`http://localhost:3000/user`)
-            // console.log(resp.data.token)
-            // let id = resp.data.user.id
-            // console.log(id)
             const res = await axios.get(
-                `http://localhost:3001/users/${"658bd8481aec4a2cc7271634"}/storage`
+                `http://localhost:3001/users/${id}/get-images`
             )
             setImages(res.data)
             console.log(res.data)
@@ -38,6 +48,7 @@ const Dashboard = () => {
             </div>
             <div>
                 <UsageMonitoring />
+                <StorageMonitoring />
             </div>
             <ImageGrid images={images} updateImages={updateImages} />
         </div>

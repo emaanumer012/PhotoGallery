@@ -8,6 +8,7 @@ const storageSchema = new mongoose.Schema({
     spaceOccupied: {
         type: Number,
         min: 0,
+        set: (value) => parseFloat(value.toFixed(2)),
     },
     images: {
         type: [],
