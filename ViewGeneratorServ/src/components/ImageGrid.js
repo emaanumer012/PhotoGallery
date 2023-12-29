@@ -9,14 +9,15 @@ import  "./ImageGrid.css"
 const ImageGrid = ({
     images,
     updateImages,
-    isUploadButtonDisabled,
-    id
-    // currUsedStorage,
+   // isUploadButtonDisabled,
+    id,
+    currUsedStorage
 }) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
+    const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false);
     //let id = "658e859287ffc8192ad17e18"
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
@@ -25,7 +26,7 @@ const ImageGrid = ({
             setNewImage(null)
            
         }
-    }, [newImage, images, updateImages, id])
+    }, [newImage, images, updateImages, id,  currUsedStorage])
 
     // Triggered on image file selection: reads file as data URL and sets newImage state with URL and default title
     const handleImageChange = (event) => {
@@ -64,8 +65,9 @@ const ImageGrid = ({
             console.log("file size is" + fileSizeMB)
             if (fileSizeMB + spaceOccupied > 10) {
                 alert("Error! Not enough storage available")
-                // isUploadButtonDisabled = true
+                setIsUploadButtonDisabled(true);
             } else {
+              setIsUploadButtonDisabled(false);
                 const formData = new FormData()
                 formData.append("image", file)
                 formData.append("id", id)
