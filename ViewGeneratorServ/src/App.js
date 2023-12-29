@@ -21,12 +21,13 @@ function App() {
         // For simplicity, I'll just toggle it for demonstration purposes
         setLoggedIn(!isLoggedIn)
     }
+    let id = "658e859287ffc8192ad17e18"
 
     return (
         <Router>
             <div>
                 <Routes>
-                    <Route path="/home" element={<Dashboard />} />
+                    <Route path="/home" element={<Dashboard id={id} />} />
                     <Route path="/" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
                 </Routes>

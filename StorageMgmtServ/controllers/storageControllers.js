@@ -4,7 +4,7 @@ const uuid = require("uuid")
 const uuidv1 = uuid.v1
 const axios = require("axios")
 const { Storage } = require("@google-cloud/storage")
-
+const STORAGE_LIMIT = 10
 const bucket_storage = new Storage({
     keyFilename: `./emaan-project-2-409215-3a709ceb2d20.json`,
 })
@@ -14,19 +14,19 @@ const bucket = bucket_storage.bucket(bucketName)
 const multer = Multer({
     bucket_storage: Multer.memoryStorage(),
 })
-let alerts = {}
-const handleErrors = (err) => {}
 let curr_user = {}
-
 module.exports.checkstorage_get = async (req, res) => {
+    // get userid from params
     const id = req.params.id
+
+    //find user from database
     try {
         const curr_storage = await storage.retrieveUserDetails(id)
         console.log(curr_storage)
         res.status(200).json(curr_storage.spaceOccupied)
     } catch (err) {
-        console.error(err)
-        res.status(500).json({ success: false, error: "Internal Server Error" })
+        // send back error that says no user with this space exists
+        res.status(500).json({ success: false, error: err.message })
     }
 }
 
@@ -59,7 +59,7 @@ module.exports.getimages_get = async (req, res) => {
         res.status(200).json(signedUrls)
     } catch (err) {
         console.error(err)
-        res.status(500).json({ success: false, error: "Internal Server Error" })
+        res.status(500).json({ success: false, error: err.message })
     }
 }
 
@@ -84,7 +84,7 @@ module.exports.addimage_post = async (req, res) => {
     const fileSizeMB = req.body.size / (1024 * 1024)
     console.log(curr_user.spaceOccupied)
     try {
-        if (curr_user.spaceOccupied + fileSizeMB < 10) {
+        if (curr_user.spaceOccupied + fileSizeMB <= STORAGE_LIMIT) {
             const originalName = req.file.originalname
             const fileName = uuidv1() + "-" + originalName
             const blob = bucket.file(`${userId}/${fileName}`)
@@ -146,7 +146,7 @@ module.exports.addimage_post = async (req, res) => {
 
             blobStream.end(req.file.buffer)
         } else {
-            console.log("Space exceeded")
+            console.log("Not enough space left")
             res.status(400).json({ success: false, error: "Space exceeded" })
         }
     } catch (err) {
