@@ -5,7 +5,7 @@ import axios from "axios"
 // for 100%, needs to be implementded
 const StorageMonitoring = ({ onChange }) => {
     const [totalStorage, setTotalStorage] = useState(0)
-    const [storageExceeded, setStorageExceeded] = useState(0)
+    const [storageExceeded, setStorageExceeded] = useState(false)
     const [warning, setWarningGiven] = useState(false)
 
     // this has to be passed through props
@@ -19,16 +19,20 @@ const StorageMonitoring = ({ onChange }) => {
             )
             // get the value of storage occupied
             const usedStorage = response.data
-
+            if (usedStorage === 10) {
+                alert("You have used 100% of your storage!")
+                setStorageExceeded(true)
+            } else {
+                setStorageExceeded(false)
+            }
             //convert it to percnetage (to be adjusted in progess bar)
             setTotalStorage((usedStorage * 10).toFixed(1))
-
             // if we are at 80% and no warning given yet
-            if (usedStorage >= 80 && !warning) {
-                alert("Warning! You have used 80% of your storage.")
+            if (usedStorage >= 8 && !warning) {
+                alert("Warning! You have used 80% of your storage!")
                 // setting it to true so that even if user uploads more photos, the warning only comes once
                 setWarningGiven(true)
-            } else if (usedStorage < 80 && warning) {
+            } else if (usedStorage < 8 && warning) {
                 // set it to false once user goes below 80 so that it can appear again once we hit 80%
                 setWarningGiven(false)
             }

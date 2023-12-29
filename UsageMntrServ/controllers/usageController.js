@@ -1,7 +1,7 @@
 const Usage = require("../models/Usage")
 const axios = require("axios")
 const handleErrors = (err) => {}
-const LIMIT = 6
+const LIMIT = 25
 
 // get usage for a current user
 module.exports.checkusage_get = async (req, res) => {

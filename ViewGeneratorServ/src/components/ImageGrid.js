@@ -54,20 +54,25 @@ const ImageGrid = ({
             // Handle the selected file by calling handleImageChange
             handleImageChange(event)
             const file = event.target.files[0]
-            // if (file.size + currUsedStorage > 10) {
-            //     alert("Error! Not enough storage available")
-            //     isUploadButtonDisabled = true
-            // } else {
-            const formData = new FormData()
-            formData.append("image", file)
-            formData.append("id", id)
-            formData.append("size", file.size)
-            await axios.post("http://localhost:3001/add-image", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            })
-            // }
+            const spaceOccupied = (
+                await axios.get(`http://localhost:3001/users/${id}/storage`)
+            ).data
+            const fileSizeMB = file.size / (1024 * 1024)
+            console.log("file size is" + fileSizeMB)
+            if (fileSizeMB + spaceOccupied > 10) {
+                alert("Error! Not enough storage available")
+                // isUploadButtonDisabled = true
+            } else {
+                const formData = new FormData()
+                formData.append("image", file)
+                formData.append("id", id)
+                formData.append("size", file.size)
+                await axios.post("http://localhost:3001/add-image", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                })
+            }
             console.log("isUploadttonDisabled" + isUploadButtonDisabled)
             // For simplicity, we'll just add the new image to the existing images array.
             if (newImage) {
