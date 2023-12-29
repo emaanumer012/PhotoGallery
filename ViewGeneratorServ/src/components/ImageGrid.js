@@ -10,20 +10,22 @@ const ImageGrid = ({
     images,
     updateImages,
     isUploadButtonDisabled,
+    id
     // currUsedStorage,
 }) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
-    let id = "658e859287ffc8192ad17e18"
+    //let id = "658e859287ffc8192ad17e18"
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
         if (newImage) {
             updateImages([...images, newImage])
             setNewImage(null)
+           
         }
-    }, [newImage, images, updateImages])
+    }, [newImage, images, updateImages, id])
 
     // Triggered on image file selection: reads file as data URL and sets newImage state with URL and default title
     const handleImageChange = (event) => {
@@ -33,8 +35,8 @@ const ImageGrid = ({
             reader.onloadend = () => {
                 // Set newImage state with selected image data
                 setNewImage({
-                    url: reader.result,
-                    title: `Image ${images.length + 1}`,
+                    signedUrl: reader.result,
+                    fileName: file.name,
                 })
             }
             reader.readAsDataURL(file)
@@ -81,6 +83,7 @@ const ImageGrid = ({
                 updateImages([...images, newImage])
                 // Reset the newImage state after handling the upload.
                 setNewImage(null)
+                window.location.reload();
             }
         }
     }
@@ -88,6 +91,7 @@ const ImageGrid = ({
     const handleDelete = async (event) => {
         if (selectedImage !== null) {
             let imageToDelete = ""
+            console.log(selectedImage);
 
             const updatedImages = images.filter(
                 (image, index) => index !== selectedImage
@@ -128,7 +132,7 @@ const ImageGrid = ({
     const handleDownload = (index) => {
         const image = images[index]
         const link = document.createElement("a")
-        link.href = image.url
+        link.href = image.signedUrl
         link.download = `Image_${index + 1}`
         document.body.appendChild(link)
         link.click()
@@ -139,7 +143,7 @@ const ImageGrid = ({
     <div className="container">
       <div className="row">
         <div className="col-md-6">
-          <h3 className="mt-6 mb-4" style={{ paddingTop: "40px" }}>
+          <h3 className="mt-6 mb-4" style={{ paddingTop: "40px" ,  fontWeight:"bold"}}>
             Gallery Highlights
           </h3>
         </div>
@@ -216,7 +220,7 @@ const ImageGrid = ({
                             style={{ width: "22rem", marginBottom: "15px" }}
                         >
                             <img
-                                src={newImage.originalURL}
+                                src={newImage.signedUrl}
                                 className="card-img-top"
                                 alt={newImage.fileName}
                                 style={{ height: "220px", objectFit: "cover" }}
@@ -241,7 +245,8 @@ const ImageGrid = ({
                             <div className="modal-body">
                                 {selectedImage !== null && (
                                     <ImageViewer
-                                        imageUrl={images[selectedImage].url}
+                                        imageUrl={images[selectedImage].signedUrl}
+                                        ImagefileName={images[selectedImage].fileName} 
                                         onClose={handleCloseImageViewer}
                                     />
                                 )}

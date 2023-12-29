@@ -16,9 +16,9 @@ const Dashboard = (props) => {
     // const [currUsage, setCurrUsage] = useState()
     // let id = "658e859287ffc8192ad17e18"
 
-    useEffect(() => {
-        fetchStorageDetails()
-    }, [id])
+    // useEffect(() => {
+    //     fetchStorageDetails()
+    // }, [id]);
 
     const handleUsageMonitoringChange = (usageExceeded) => {
         // Enable or disable the upload button based on the usage limit
@@ -33,6 +33,7 @@ const Dashboard = (props) => {
     // get an array that is  {fileName, originalURL, signedURL}
     const fetchStorageDetails = async () => {
         try {
+           // console.log(id)
             const res = await axios.get(
                 `http://localhost:3001/users/${id}/get-images`
             )
@@ -45,7 +46,7 @@ const Dashboard = (props) => {
 
     useEffect(() => {
         fetchStorageDetails();
-    }, []);
+    }, [id]);
 
     const updateImages = (newImages) => {
         setImages(newImages)
@@ -54,20 +55,14 @@ const Dashboard = (props) => {
     return (
         <div>
             <div>
-                <DashboardNavbar />
+                <DashboardNavbar id={id}/>
                 <DashboardHeroSection />
-            </div>
-            <div>
-                <UsageMonitoring
-                    onChange={handleUsageMonitoringChange}
-                    id={id}
-                />
-                <StorageMonitoring onChange={handleStorageMonitoringChange} />
             </div>
             <ImageGrid
                 images={images}
                 updateImages={updateImages}
                 isUploadButtonDisbled={isUploadButtonDisabled}
+                id = {id}
                 // currUsedStorage={currUsedStorage}
             />
              <Footer />

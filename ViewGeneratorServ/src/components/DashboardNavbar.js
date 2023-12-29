@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navbar, Nav, Container } from "react-bootstrap";
 
 import logo from "./Assets/logo.png";
 import profilePic from "./Assets/profilepic.png";
 
-const DashboardNavbar = () => {
+const DashboardNavbar = (props) => {
+  const { id } = props;
+  console.log(id);
+
   return (
     <Navbar bg="light" variant="light" expand="lg">
       <Container>
@@ -17,15 +20,38 @@ const DashboardNavbar = () => {
             marginBottom="40px"
             className="d-inline-block align-top"
           />{" "}
-          <b style={{paddingTop:"20px", fontSize:"25px"}}>&nbsp;ImageGallery</b>
+          <b style={{ paddingTop: "20px", fontSize: "25px" }}>
+            &nbsp;ImageGallery
+          </b>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar-nav" />
         <Navbar.Collapse id="navbar-nav">
           <Nav className="ms-auto">
-          <Nav.Link href="#home" style={{ color: "black"}}>Home</Nav.Link>
-            <Nav.Link href="#usage-monitoring" style={{ color: "black",paddingLeft:"30px"}}>Usage Monitoring</Nav.Link>
-            <Nav.Link href="#about-us" style={{ color: "black" , paddingLeft:"30px"}}>About Us</Nav.Link>
-            <Nav.Link href="#LogOut" style={{ color: "black" , paddingLeft:"30px"}}>Logout</Nav.Link>
+
+            {/* parameter will be passed like this */}
+          {/* <Nav.Link as={Link} to={`/home/${id}`} style={{ color: "black" }}> */}
+
+            <Nav.Link href="#home" style={{ color: "black" }}>
+              Home
+            </Nav.Link>
+            <Nav.Link
+              href="#usage-monitoring"
+              style={{ color: "black", paddingLeft: "30px" }}
+            >
+              Usage Monitoring
+            </Nav.Link>
+            <Nav.Link
+              href="#about-us"
+              style={{ color: "black", paddingLeft: "30px" }}
+            >
+              About Us
+            </Nav.Link>
+            <Nav.Link
+              href="#LogOut"
+              style={{ color: "black", paddingLeft: "30px" }}
+            >
+              Logout
+            </Nav.Link>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Nav>
           <Nav>

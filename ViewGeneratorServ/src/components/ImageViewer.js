@@ -1,9 +1,9 @@
 // ImageViewer.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import  "./ImageGrid.css"
+import './ImageGrid.css';
 
-const ImageViewer = ({ imageUrl, onClose }) => {
+const ImageViewer = ({ imageUrl, ImagefileName, onClose }) => {
   return (
     <div
       className="image-viewer-overlay"
@@ -28,9 +28,9 @@ const ImageViewer = ({ imageUrl, onClose }) => {
           borderRadius: '8px',
           boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)',
           maxWidth: '800px',
-          width: '90%', 
+          width: '90%',
           textAlign: 'center',
-          transition: '0.3s ease-in-out', 
+          transition: '0.3s ease-in-out',
         }}
       >
         <div className="d-flex justify-content-between align-items-center">
@@ -42,7 +42,7 @@ const ImageViewer = ({ imageUrl, onClose }) => {
             onClick={onClose}
             style={{
               marginBottom: '17px',
-              transition: '0.3s ease-in-out', // Added transition effect
+              transition: '0.3s ease-in-out',
             }}
           >
             Close
@@ -56,10 +56,15 @@ const ImageViewer = ({ imageUrl, onClose }) => {
             objectFit: 'cover',
             maxWidth: '100%',
             maxHeight: '400px',
-            borderRadius: '8px', 
-            transition: '0.3s ease-in-out', 
+            borderRadius: '8px',
+            transition: '0.3s ease-in-out',
           }}
         />
+        <br/>
+        <br/>
+        <p style={{ marginBottom: '10px' }}>
+          <strong>File Name:</strong> {ImagefileName}
+        </p>
       </div>
     </div>
   );
