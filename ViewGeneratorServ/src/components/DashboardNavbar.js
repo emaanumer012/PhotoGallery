@@ -30,22 +30,29 @@ const DashboardNavbar = (props) => {
 
             {/* parameter will be passed like this */}
           {/* <Nav.Link as={Link} to={`/home/${id}`} style={{ color: "black" }}> */}
-
+          
+          {/* clicking on this will redirect to dashboard */}
             <Nav.Link href="#home" style={{ color: "black" }}>
               Home
             </Nav.Link>
+
+            {/* clicking on this will redirect to Monitoring.js */}
             <Nav.Link
               href="#usage-monitoring"
               style={{ color: "black", paddingLeft: "30px" }}
             >
               Usage Monitoring
             </Nav.Link>
+
+            {/* clicking on this will redirect to AboutUs.js */}
             <Nav.Link
               href="#about-us"
               style={{ color: "black", paddingLeft: "30px" }}
             >
               About Us
             </Nav.Link>
+
+            {/* clicking on this will Logout */}
             <Nav.Link
               href="#LogOut"
               style={{ color: "black", paddingLeft: "30px" }}

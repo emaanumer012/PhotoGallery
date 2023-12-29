@@ -13,6 +13,7 @@ const Dashboard = (props) => {
     const [images, setImages] = useState([])
     const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false) // Initial state
     const { id } = props
+    let currUsedStorage = 98;
     // const [currUsage, setCurrUsage] = useState()
     // let id = "658e859287ffc8192ad17e18"
 
@@ -58,12 +59,20 @@ const Dashboard = (props) => {
                 <DashboardNavbar id={id}/>
                 <DashboardHeroSection />
             </div>
+            <div>
+                <UsageMonitoring
+                    onChange={handleUsageMonitoringChange}
+                    id = {id}
+                />
+                <StorageMonitoring onChange={handleStorageMonitoringChange} 
+                id = {id}/>
+            </div>
             <ImageGrid
                 images={images}
                 updateImages={updateImages}
-                isUploadButtonDisbled={isUploadButtonDisabled}
+                isUploadButtonDisabled={isUploadButtonDisabled}
                 id = {id}
-                // currUsedStorage={currUsedStorage}
+                currUsedStorage={currUsedStorage}
             />
              <Footer />
         </div>

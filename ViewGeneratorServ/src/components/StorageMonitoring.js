@@ -3,14 +3,14 @@ import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 
-const StorageMonitoring = ({ onChange }) => {
+const StorageMonitoring = ({ onChange,  id }) => {
   const [totalStorage, setTotalStorage] = useState(0);
   const [storageExceeded, setStorageExceeded] = useState(false);
   const [warning, setWarningGiven] = useState(false);
   const [showStorageExceededModal, setShowStorageExceededModal] = useState(false);
   const [showWarningModal, setShowWarningModal] = useState(false);
 
-  let id = "658e859287ffc8192ad17e18";
+  //let id = "658e859287ffc8192ad17e18";
 
   const fetchUsedStorageDetails = async () => {
     try {
@@ -41,7 +41,7 @@ const StorageMonitoring = ({ onChange }) => {
 
   useEffect(() => {
     fetchUsedStorageDetails();
-  }, [totalStorage]);
+  }, [totalStorage,id]);
 
   useEffect(() => {
     onChange(storageExceeded);
