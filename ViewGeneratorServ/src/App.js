@@ -4,7 +4,11 @@ import Login from "./components/Login"
 import "bootstrap/dist/css/bootstrap.css"
 import { useState } from "react"
 import Dashboard from "./components/Dashboard"
-import { Routes, Route, BrowserRouter as Router } from "react-router-dom"
+import { Routes, Route, BrowserRouter as Router} from "react-router-dom"
+import StaticPage from "./components/StaticPage"
+import Error404 from "./components/Error404"
+import AboutUs from "./components/AboutUs"
+
 
 function App() {
   const [currentForm, setCurrentForm] = useState('Login');

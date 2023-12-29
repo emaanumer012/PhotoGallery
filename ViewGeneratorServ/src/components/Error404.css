@@ -1,0 +1,11 @@
+/* Error404.css */
+.error-container {
+  margin: 0;
+  height: 100vh;
+  background-image: url('./Assets/Error404.png'); /* Relative path to your image */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,11 +1,13 @@
 import React from "react"
 import DashboardNavbar from "./DashboardNavbar"
 import UsageMonitoring from "./UsageMonitoring"
+import DashboardHeroSection from "./DashboardHeroSection"
+import StorageMonitoring from "./StorageMonitoring"
+import Footer from "./Footer"
 import ImageGrid from "./ImageGrid"
 import axios from "axios"
 import { useEffect, useState } from "react"
-import "bootstrap/dist/css/bootstrap.css"
-import StorageMonitoring from "./StorageMonitoring"
+import 'bootstrap/dist/css/bootstrap.css';
 
 const Dashboard = (props) => {
     const [images, setImages] = useState([])
@@ -37,12 +39,13 @@ const Dashboard = (props) => {
             setImages(res.data)
             console.log(res.data)
         } catch (err) {
-            console.log(err.message)
+            console.log(err.message);
         }
-    }
+    };
+
     useEffect(() => {
-        fetchStorageDetails()
-    }, [])
+        fetchStorageDetails();
+    }, []);
 
     const updateImages = (newImages) => {
         setImages(newImages)
@@ -52,6 +55,7 @@ const Dashboard = (props) => {
         <div>
             <div>
                 <DashboardNavbar />
+                <DashboardHeroSection />
             </div>
             <div>
                 <UsageMonitoring
@@ -66,6 +70,7 @@ const Dashboard = (props) => {
                 isUploadButtonDisbled={isUploadButtonDisabled}
                 // currUsedStorage={currUsedStorage}
             />
+             <Footer />
         </div>
     )
 }

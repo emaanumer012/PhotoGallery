@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import ImageViewer from "./ImageViewer"
 import "typeface-montserrat"
 import axios from "axios"
+import  "./ImageGrid.css"
 
 const ImageGrid = ({
     images,
@@ -134,80 +135,79 @@ const ImageGrid = ({
         document.body.removeChild(link)
     }
 
-    return (
-        <div className="container mt-4">
-            <div className="row">
-                <div className="col-md-6">
-                    <h2 className="mt-4 mb-4">Image Gallery</h2>
-                </div>
-                <div
-                    className="col-md-6 text-right"
-                    style={{ paddingLeft: "400px", marginTop: "35px" }}
-                >
-                    <div className="mb-3">
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleFileInputChange}
-                            ref={fileInputRef}
-                            style={{ display: "none" }}
-                        />
-                        <button
-                            className="btn btn-primary btn-lg"
-                            onClick={handleUpload}
-                            disabled={isUploadButtonDisabled}
-                        >
-                            Upload Image
-                        </button>
-                    </div>
-                </div>
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="col-md-6">
+          <h3 className="mt-6 mb-4" style={{ paddingTop: "40px" }}>
+            Gallery Highlights
+          </h3>
+        </div>
+        <div
+          className="col-md-6 text-right"
+          style={{ paddingLeft: "400px", marginTop: "35px" }}
+        >
+          <div className="mb-3">
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileInputChange}
+              ref={fileInputRef}
+              style={{ display: "none" }}
+            />
+            <button
+              className="btn btn-lg custom-button" 
+              onClick={handleUpload}
+              disabled={isUploadButtonDisabled}
+            >
+              Upload Image
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="row" style={{ marginTop: "30px" }}>
+        {images.map((image, index) => (
+          <div key={index} className="col-md-4 mb-3">
+            <div
+              className="card"
+              style={{ width: "22rem", marginBottom: "15px" }}
+            >
+              <img
+                src={image.signedUrl}
+                className="card-img-top"
+                alt={`Image ${index}`}
+                style={{ height: "220px", objectFit: "cover" }}
+                onClick={() => handleImageClick(index)}
+              />
+              <div className="card-body">
+                <h5 className="card-title text-center">{image.fileName}</h5>
+                {selectedImage === index && (
+                  <div className="d-flex justify-content-between mt-4">
+                    <button
+                      className="btn custom-button mr-6"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="btn custom-button mr-2"
+                      onClick={() => handleView(index)}
+                    >
+                      View
+                    </button>
+                    <button
+                      className="btn custom-button"
+                      onClick={() => handleDownload(index)}
+                    >
+                      Download
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-            <div className="row" style={{ marginTop: "30px" }}>
-                {images.map((image, index) => (
-                    <div key={index} className="col-md-4 mb-3">
-                        <div
-                            className="card"
-                            style={{ width: "22rem", marginBottom: "15px" }}
-                        >
-                            <img
-                                src={image.signedUrl}
-                                className="card-img-top"
-                                alt={`Image ${index}`}
-                                style={{ height: "220px", objectFit: "cover" }}
-                                onClick={() => handleImageClick(index)}
-                            />
-                            <div className="card-body">
-                                <h5 className="card-title text-center">
-                                    {image.fileName}
-                                </h5>
-                                {selectedImage === index && (
-                                    <div className="d-flex justify-content-between mt-4">
-                                        <button
-                                            className="btn btn-primary mr-6"
-                                            onClick={handleDelete}
-                                        >
-                                            Delete
-                                        </button>
-                                        <button
-                                            className="btn btn-primary mr-2"
-                                            onClick={() => handleView(index)}
-                                        >
-                                            View
-                                        </button>
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={() =>
-                                                handleDownload(index)
-                                            }
-                                        >
-                                            Download
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                ))}
+          </div>
+        ))}
 
                 {newImage && (
                     <div className="col-md-4 mb-3">

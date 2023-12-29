@@ -1,6 +1,7 @@
 // ImageViewer.js
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import  "./ImageGrid.css"
 
 const ImageViewer = ({ imageUrl, onClose }) => {
   return (
@@ -37,7 +38,7 @@ const ImageViewer = ({ imageUrl, onClose }) => {
             Enlarged View
           </h3>
           <button
-            className="btn btn-primary"
+            className="btn custom-button"
             onClick={onClose}
             style={{
               marginBottom: '17px',
