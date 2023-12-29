@@ -1,0 +1,42 @@
+{
+  "userId": "658e859287ffc8192ad17e18",
+  "timestamp": 1703839123281,
+  "logs": [
+    {
+      "event": "User just added an image",
+      "timestamp": 1703840591504
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703840611824
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703840812373
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703841231606
+    },
+    {
+      "event": "User just deleted an image",
+      "timestamp": 1703841334536
+    },
+    {
+      "event": "User just deleted an image",
+      "timestamp": 1703841335554
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703841407658
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703841474309
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703841505956
+    }
+  ]
+}

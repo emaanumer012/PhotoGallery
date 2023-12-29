@@ -2,20 +2,26 @@ import React, { useState, useEffect } from "react"
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from "axios"
 
-const UsageMonitoring = () => {
+const UsageMonitoring = ({ onChange }, props) => {
     const [dailyUsage, setDailyUsage] = useState(0)
-    const id = "658d578948f1f5a5fecd6721"
+    const [usageExceeded, setUsageExceeded] = useState(false)
+    //let id = "658e859287ffc8192ad17e18\
+    const { id } = props
 
     const fetchUsageDetails = async () => {
+        console.log(id)
         try {
             const res = await axios.get(
                 `http://localhost:3002/users/${id}/usage`
             )
             const currentUsage = res.data
             setDailyUsage(currentUsage)
-            // if (parseInt(currentUsage, 10) == 6) {
-            //     alert("You've reached your daily limit. Come back tomorrow!")
-            // }
+            if (parseInt(currentUsage, 10) == 6 && !usageExceeded) {
+                alert("You've reached your daily limit. Come back tomorrow!")
+                setUsageExceeded(true)
+            } else if (parseInt(currentUsage, 10) < 6 && usageExceeded) {
+                setUsageExceeded(false)
+            }
             console.log(res.data)
         } catch (err) {
             console.log(err.message)
@@ -24,6 +30,10 @@ const UsageMonitoring = () => {
     useEffect(() => {
         fetchUsageDetails()
     }, [dailyUsage])
+
+    useEffect(() => {
+        onChange(usageExceeded)
+    }, [usageExceeded])
 
     const calculateDailyUsageColor = () => {
         if (dailyUsage <= 20) {
