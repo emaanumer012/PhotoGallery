@@ -32,8 +32,8 @@ module.exports.checkstorage_get = async (req, res) => {
 
 module.exports.getimages_get = async (req, res) => {
     const options = {
-        version: "v4", // The API version for signed URLs (use 'v2' or 'v4')
-        action: "read", // The action to perform on the object (read, write, delete, etc.)
+        version: "v4",
+        action: "read",
         expires: Date.now() + 15 * 60 * 1000, // Timestamp (in milliseconds) when the URL expires
     }
     const id = req.params.id

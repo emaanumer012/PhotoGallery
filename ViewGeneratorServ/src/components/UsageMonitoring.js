@@ -5,8 +5,8 @@ import axios from "axios"
 const UsageMonitoring = ({ onChange }, props) => {
     const [dailyUsage, setDailyUsage] = useState(0)
     const [usageExceeded, setUsageExceeded] = useState(false)
-    //let id = "658e859287ffc8192ad17e18\
-    const { id } = props
+    let id = "658e859287ffc8192ad17e18"
+    // const { id } = pr
 
     const fetchUsageDetails = async () => {
         console.log(id)
@@ -16,10 +16,10 @@ const UsageMonitoring = ({ onChange }, props) => {
             )
             const currentUsage = res.data
             setDailyUsage(currentUsage)
-            if (parseInt(currentUsage, 10) == 6 && !usageExceeded) {
+            if (parseInt(currentUsage, 10) == 25 && !usageExceeded) {
                 alert("You've reached your daily limit. Come back tomorrow!")
                 setUsageExceeded(true)
-            } else if (parseInt(currentUsage, 10) < 6 && usageExceeded) {
+            } else if (parseInt(currentUsage, 10) < 25 && usageExceeded) {
                 setUsageExceeded(false)
             }
             console.log(res.data)
