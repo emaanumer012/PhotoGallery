@@ -5,14 +5,17 @@ import ImageViewer from "./ImageViewer"
 import "typeface-montserrat"
 import axios from "axios"
 
-const ImageGrid = ({ images, updateImages }) => {
+const ImageGrid = ({
+    images,
+    updateImages,
+    isUploadButtonDisabled,
+    // currUsedStorage,
+}) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
-    const [uploadButton, setUploadButton] = useState(false)
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
-    let id = "658d578948f1f5a5fecd6721"
-
+    let id = "658e859287ffc8192ad17e18"
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
         if (newImage) {
@@ -51,6 +54,10 @@ const ImageGrid = ({ images, updateImages }) => {
             // Handle the selected file by calling handleImageChange
             handleImageChange(event)
             const file = event.target.files[0]
+            // if (file.size + currUsedStorage > 10) {
+            //     alert("Error! Not enough storage available")
+            //     isUploadButtonDisabled = true
+            // } else {
             const formData = new FormData()
             formData.append("image", file)
             formData.append("id", id)
@@ -60,6 +67,8 @@ const ImageGrid = ({ images, updateImages }) => {
                     "Content-Type": "multipart/form-data",
                 },
             })
+            // }
+            console.log("isUploadttonDisabled" + isUploadButtonDisabled)
             // For simplicity, we'll just add the new image to the existing images array.
             if (newImage) {
                 // Update the images state with the new image data
@@ -141,7 +150,7 @@ const ImageGrid = ({ images, updateImages }) => {
                         <button
                             className="btn btn-primary btn-lg"
                             onClick={handleUpload}
-                            disabled={uploadButton}
+                            disabled={isUploadButtonDisabled}
                         >
                             Upload Image
                         </button>
@@ -202,14 +211,14 @@ const ImageGrid = ({ images, updateImages }) => {
                             style={{ width: "22rem", marginBottom: "15px" }}
                         >
                             <img
-                                src={newImage.url}
+                                src={newImage.originalURL}
                                 className="card-img-top"
-                                alt={newImage.title}
+                                alt={newImage.fileName}
                                 style={{ height: "220px", objectFit: "cover" }}
                             />
                             <div className="card-body">
                                 <h5 className="card-title text-center">
-                                    {newImage.title}
+                                    {newImage.fileName}
                                 </h5>
                             </div>
                         </div>

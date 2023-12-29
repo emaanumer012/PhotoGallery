@@ -10,9 +10,13 @@ import StorageMonitoring from "./StorageMonitoring"
 const Dashboard = (props) => {
     const [images, setImages] = useState([])
     const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false) // Initial state
-   // let id = "658d578948f1f5a5fecd6721";
+    const { id } = props
+    // const [currUsage, setCurrUsage] = useState()
+    // let id = "658e859287ffc8192ad17e18"
 
-    const { id } = props;
+    useEffect(() => {
+        fetchStorageDetails()
+    }, [id])
 
     const handleUsageMonitoringChange = (usageExceeded) => {
         // Enable or disable the upload button based on the usage limit
@@ -24,10 +28,10 @@ const Dashboard = (props) => {
         setUploadButtonDisabled(storageExceeded)
     }
 
+    // get an array that is  {fileName, originalURL, signedURL}
     const fetchStorageDetails = async () => {
         try {
-            const res = await axios.get(
-                `http://localhost:3001/users/${id}/get-images`
+            const res = await axios.get                http://localhost:3001/users/${id}/get-images
             )
             setImages(res.data)
             console.log(res.data)
@@ -49,10 +53,18 @@ const Dashboard = (props) => {
                 <DashboardNavbar />
             </div>
             <div>
-                <UsageMonitoring />
-                <StorageMonitoring />
+                <UsageMonitoring
+                    onChange={handleUsageMonitoringChange}
+                    id={id}
+                />
+                <StorageMonitoring onChange={handleStorageMonitoringChange} />
             </div>
-            <ImageGrid images={images} updateImages={updateImages} />
+            <ImageGrid
+                images={images}
+                updateImages={updateImages}
+                isUploadButtonDisbled={isUploadButtonDisabled}
+                // currUsedStorage={currUsedStorage}
+            />
         </div>
     )
 }
