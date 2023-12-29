@@ -31,7 +31,8 @@ const Dashboard = (props) => {
     // get an array that is  {fileName, originalURL, signedURL}
     const fetchStorageDetails = async () => {
         try {
-            const res = await axios.get                http://localhost:3001/users/${id}/get-images
+            const res = await axios.get(
+                `http://localhost:3001/users/${id}/get-images`
             )
             setImages(res.data)
             console.log(res.data)
