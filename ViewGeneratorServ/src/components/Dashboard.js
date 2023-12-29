@@ -7,10 +7,12 @@ import { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import StorageMonitoring from "./StorageMonitoring"
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const [images, setImages] = useState([])
     const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false) // Initial state
-    let id = "658d578948f1f5a5fecd6721"
+   // let id = "658d578948f1f5a5fecd6721";
+
+    const { id } = props;
 
     const handleUsageMonitoringChange = (usageExceeded) => {
         // Enable or disable the upload button based on the usage limit
