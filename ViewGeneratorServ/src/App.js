@@ -54,7 +54,7 @@ function App() {
 return(
   <Router>
     {/* <Error404/> */}
-    <AboutUs/>
+    <StaticPage/>
   </Router>
 );
 
