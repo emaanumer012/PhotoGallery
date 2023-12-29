@@ -6,6 +6,8 @@ import { useState } from "react"
 import Dashboard from "./components/Dashboard"
 import { Routes, Route, BrowserRouter as Router} from "react-router-dom"
 import StaticPage from "./components/StaticPage"
+import Error404 from "./components/Error404"
+import AboutUs from "./components/AboutUs"
 
 
 function App() {
@@ -36,17 +38,24 @@ function App() {
 //     </Router>
 // )
 
-return (
+// return (
+//   <Router>
+//       <div>
+//         <StaticPage />
+//         {/* <Routes>
+//           <Route path="/login" element={<Login />} />
+//           <Route path="/signup" element={<SignUp />} />
+//           <Route path="/home" element={<Dashboard />} />
+//         </Routes> */}
+//       </div>
+//     </Router>
+// );
+
+return(
   <Router>
-      <div>
-        <StaticPage />
-        {/* <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/home" element={<Dashboard />} />
-        </Routes> */}
-      </div>
-    </Router>
+    {/* <Error404/> */}
+    <AboutUs/>
+  </Router>
 );
 
 

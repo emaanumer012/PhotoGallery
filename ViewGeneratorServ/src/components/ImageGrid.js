@@ -2,14 +2,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ImageViewer from "./ImageViewer";
-import 'typeface-montserrat';
+import "typeface-montserrat";
+import  "./ImageGrid.css"
 
 const ImageGrid = ({ images, updateImages }) => {
   const [newImage, setNewImage] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null); // Keeps track of the index of the selected image in the gallery
   const [showImageViewer, setShowImageViewer] = useState(false); //Controls the visibility of the image viewer modal
   const fileInputRef = useRef(null); // A reference to the file input element used for uploading images
-
 
   useEffect(() => {
     // Handle the upload to the server or storage after newImage is updated
@@ -18,7 +18,6 @@ const ImageGrid = ({ images, updateImages }) => {
       setNewImage(null);
     }
   }, [newImage, images, updateImages]);
-
 
   // Triggered on image file selection: reads file as data URL and sets newImage state with URL and default title
   const handleImageChange = (event) => {
@@ -36,16 +35,12 @@ const ImageGrid = ({ images, updateImages }) => {
     }
   };
 
-
-
   // Function to trigger file input dialog when the Upload Image button is clicked
   const handleUpload = () => {
     // Clear the file input value before triggering the click
     fileInputRef.current.value = null;
     fileInputRef.current.click();
   };
-
-
 
   // Function to handle file input change, typically for image upload to server or storage
   const handleFileInputChange = (event) => {
@@ -65,9 +60,6 @@ const ImageGrid = ({ images, updateImages }) => {
     }
   };
 
-
-
-
   const handleDelete = () => {
     if (selectedImage !== null) {
       const updatedImages = images.filter(
@@ -78,25 +70,20 @@ const ImageGrid = ({ images, updateImages }) => {
     }
   };
 
-
   const handleView = (index) => {
     setSelectedImage(index);
     setShowImageViewer(true);
   };
-
 
   const handleImageClick = (index) => {
     // Update the selectedImage state when an image is clicked
     setSelectedImage(index === selectedImage ? null : index);
   };
 
-
   const handleCloseImageViewer = () => {
     setSelectedImage(null);
     setShowImageViewer(false);
   };
-
-
 
   const handleDownload = (index) => {
     const image = images[index];
@@ -108,14 +95,13 @@ const ImageGrid = ({ images, updateImages }) => {
     document.body.removeChild(link);
   };
 
-  
-
   return (
-    <div className="container mt-4">
+    <div className="container">
       <div className="row">
         <div className="col-md-6">
-          <h2 className="mt-4 mb-4"
-            >Image Gallery</h2>
+          <h3 className="mt-6 mb-4" style={{ paddingTop: "40px" }}>
+            Gallery Highlights
+          </h3>
         </div>
         <div
           className="col-md-6 text-right"
@@ -129,7 +115,10 @@ const ImageGrid = ({ images, updateImages }) => {
               ref={fileInputRef}
               style={{ display: "none" }}
             />
-            <button className="btn btn-primary btn-lg" onClick={handleUpload}>
+            <button
+              className="btn btn-lg custom-button" 
+              onClick={handleUpload}
+            >
               Upload Image
             </button>
           </div>
@@ -155,25 +144,24 @@ const ImageGrid = ({ images, updateImages }) => {
                 {selectedImage === index && (
                   <div className="d-flex justify-content-between mt-4">
                     <button
-                      className="btn btn-primary mr-6"
+                      className="btn custom-button mr-6"
                       onClick={handleDelete}
                     >
                       Delete
                     </button>
                     <button
-                      className="btn btn-primary mr-2"
+                      className="btn custom-button mr-2"
                       onClick={() => handleView(index)}
                     >
                       View
                     </button>
                     <button
-                      className="btn btn-primary"
+                      className="btn custom-button"
                       onClick={() => handleDownload(index)}
                     >
                       Download
                     </button>
                   </div>
-
                 )}
               </div>
             </div>
