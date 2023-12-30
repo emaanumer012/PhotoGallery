@@ -167,7 +167,7 @@ const SignUp = () => {
                                             cursor: "pointer",
                                             textDecoration: "underline",
                                         }}
-                                        onClick={() => navigate("/")}
+                                        onClick={() => navigate("/login")}
                                     >
                                         Sign In
                                     </a>

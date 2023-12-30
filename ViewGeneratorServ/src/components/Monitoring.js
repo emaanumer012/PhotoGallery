@@ -1,28 +1,25 @@
-import React from "react"
-import DashboardNavbar from "./DashboardNavbar"
-
-import Footer from "./Footer"
+import React, { useState } from "react"
 import UsageMonitoring from "./UsageMonitoring"
 import StorageMonitoring from "./StorageMonitoring"
 import UMFooter from "./UMFooter"
 
-
-
 const Monitoring = (props) => {
-  const {id} = props;
-    return <div>
-        <DashboardNavbar/>
+    const [exceeded, setExceeded] = useState(false)
+    const { id, onExceededChange } = props
+
+    const handleDataFromChildren = (value) => {
+        setExceeded(value)
+        onExceededChange(value)
+    }
+    return (
         <div>
-                <UsageMonitoring
-                    onChange={handleUsageMonitoringChange}
-                    id = {id}
-                />
-                <StorageMonitoring onChange={handleStorageMonitoringChange} 
-                id = {id}/>
+            <div>
+                <UsageMonitoring onChange={handleDataFromChildren} id={id} />
+                <StorageMonitoring onChange={handleDataFromChildren} id={id} />
             </div>
-        <UMFooter/>
-        <Footer/>
-    </div>
+            {/* <UMFooter /> */}
+        </div>
+    )
 }
 
 export default Monitoring
