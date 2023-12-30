@@ -18,7 +18,7 @@ const DashboardNavbar = (props) => {
                         alt="Logo"
                         width="50"
                         height="50"
-                        marginBottom="40px"
+                        marginbottom="40px"
                         className="d-inline-block align-top"
                     />{" "}
                     <b style={{ paddingTop: "20px", fontSize: "25px" }}>

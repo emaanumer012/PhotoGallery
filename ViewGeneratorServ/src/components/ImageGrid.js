@@ -207,7 +207,7 @@ const ImageGrid = ({
                     <div key={index} className="col-md-4 mb-3">
                         <div
                             className="card"
-                            style={{ width: "22rem", marginBottom: "15px" }}
+                            style={{ width: "22rem", marginbottom: "15px" }}
                         >
                             <img
                                 src={image.signedUrl}
@@ -254,7 +254,7 @@ const ImageGrid = ({
                     <div className="col-md-4 mb-3">
                         <div
                             className="card"
-                            style={{ width: "22rem", marginBottom: "15px" }}
+                            style={{ width: "22rem", marginbottom: "15px" }}
                         >
                             <img
                                 src={newImage.signedUrl}
