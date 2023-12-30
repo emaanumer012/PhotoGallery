@@ -34,14 +34,14 @@ const ImageViewer = ({ imageUrl, ImagefileName, onClose }) => {
         }}
       >
         <div className="d-flex justify-content-between align-items-center">
-          <h3 className="modal-title" style={{ marginBottom: '20px' }}>
+          <h3 className="modal-title" style={{ marginbottom: '20px' }}>
             Enlarged View
           </h3>
           <button
             className="btn custom-button"
             onClick={onClose}
             style={{
-              marginBottom: '17px',
+              marginbottom: '17px',
               transition: '0.3s ease-in-out',
             }}
           >
@@ -62,7 +62,7 @@ const ImageViewer = ({ imageUrl, ImagefileName, onClose }) => {
         />
         <br/>
         <br/>
-        <p style={{ marginBottom: '10px' }}>
+        <p style={{ marginbottom: '10px' }}>
           <strong>File Name:</strong> {ImagefileName}
         </p>
       </div>

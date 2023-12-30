@@ -156,14 +156,16 @@ const ImageGrid = ({
     }
 
     const handleDownload = (index) => {
-        const image = images[index]
-        const link = document.createElement("a")
-        link.href = image.signedUrl
-        link.download = `Image_${index + 1}`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-    }
+        const image = images[index];
+        const link = document.createElement("a");
+        link.href = image.signedUrl;
+        link.target = "_blank"; // Open in a new tab/window
+        link.download = `Image_${index + 1}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+    
 
     return (
         <div className="container">
