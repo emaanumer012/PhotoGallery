@@ -30,14 +30,14 @@ const StaticNavbar = () => {
                         <Nav.Link
                             as={Link}
                             to="/signup"
-                            style={{ color: "blue", marginRight: "10px" }}
+                            style={{color:"black", marginRight: "10px" }}
                         >
                             Sign Up
                         </Nav.Link>
                         <Nav.Link
                             as={Link}
                             to="/login"
-                            style={{ color: "blue" }}
+                            style={{color:"black"}}
                         >
                             Login
                         </Nav.Link>
