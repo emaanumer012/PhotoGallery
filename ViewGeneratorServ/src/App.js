@@ -4,19 +4,20 @@ import Login from "./components/Login"
 import "bootstrap/dist/css/bootstrap.css"
 import { useState } from "react"
 import Dashboard from "./components/Dashboard"
-import { Routes, Route, BrowserRouter as Router} from "react-router-dom"
+import { Routes, Route, BrowserRouter as Router } from "react-router-dom"
 import StaticPage from "./components/StaticPage"
 import Error404 from "./components/Error404"
 import AboutUs from "./components/AboutUs"
-
+import Monitoring from "./components/Monitoring"
+import Logout from "./components/Logout"
 
 function App() {
-  const [currentForm, setCurrentForm] = useState('Login');
-  const [isLoggedIn, setLoggedIn] = useState(false);
+    const [currentForm, setCurrentForm] = useState("Login")
+    const [isLoggedIn, setLoggedIn] = useState(false)
 
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
-  }
+    const toggleForm = (formName) => {
+        setCurrentForm(formName)
+    }
 
     const handleLogin = () => {
         // You need to implement the logic for checking the correctness of the login
@@ -25,42 +26,24 @@ function App() {
         // For simplicity, I'll just toggle it for demonstration purposes
         setLoggedIn(!isLoggedIn)
     }
-    let id = "658e859287ffc8192ad17e18"
+    let id = "658eeec2df416508f6f3d920"
 
     return (
         <Router>
             <div>
                 <Routes>
+                    <Route path="/" element={<StaticPage />} />
                     <Route path="/home" element={<Dashboard id={id} />} />
-                    <Route path="/" element={<Login />} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/monitoring" element={<Monitoring />} />
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/404" element={<Error404 />} />
+                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </div>
         </Router>
     )
-
-// return (
-//   <Router>
-//   <div>
-//     {
-//       isLoggedIn ? (
-//         <Dashboard />
-//       ) : (
-//         currentForm === 'Login' ? (
-//           <Login onFormSwitch={toggleForm} onLogin={handleLogin} />
-//         ) : (
-//           <SignUp onFormSwitch={toggleForm} />
-//         )
-//       )
-//     }
-//   </div>
-//   </Router>
- 
-// );
-
-
 }
 
-
-export default App;
-
+export default App

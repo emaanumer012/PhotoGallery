@@ -4,29 +4,30 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import ImageViewer from "./ImageViewer"
 import "typeface-montserrat"
 import axios from "axios"
-import  "./ImageGrid.css"
+import "./ImageGrid.css"
+import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 const ImageGrid = ({
     images,
     updateImages,
-   // isUploadButtonDisabled,
+    // isUploadButtonDisabled,
     id,
-    currUsedStorage
+    setImageEvent,
+    // currUsedStorage
 }) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
-    const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false);
+    const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false)
     //let id = "658e859287ffc8192ad17e18"
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
         if (newImage) {
             updateImages([...images, newImage])
             setNewImage(null)
-           
         }
-    }, [newImage, images, updateImages, id,  currUsedStorage])
+    }, [newImage, images, updateImages, id])
 
     // Triggered on image file selection: reads file as data URL and sets newImage state with URL and default title
     const handleImageChange = (event) => {
@@ -65,9 +66,8 @@ const ImageGrid = ({
             console.log("file size is" + fileSizeMB)
             if (fileSizeMB + spaceOccupied > 10) {
                 alert("Error! Not enough storage available")
-                setIsUploadButtonDisabled(true);
             } else {
-              setIsUploadButtonDisabled(false);
+                setIsUploadButtonDisabled(false)
                 const formData = new FormData()
                 formData.append("image", file)
                 formData.append("id", id)
@@ -77,6 +77,26 @@ const ImageGrid = ({
                         "Content-Type": "multipart/form-data",
                     },
                 })
+                setImageEvent(true)
+                {
+                    /* Success Modal */
+                }
+                // ;<Modal show={true} onHide={() => setShowWarningModal(false)}>
+                //     <Modal.Header closeButton>
+                //         <Modal.Title> Success</Modal.Title>
+                //     </Modal.Header>
+                //     <Modal.Body>
+                //         <p>Image Added Successfully!</p>
+                //     </Modal.Body>
+                //     <Modal.Footer>
+                //         <Button
+                //             variant="primary"
+                //             onClick={() => setShowWarningModal(false)}
+                //         >
+                //             OK
+                //         </Button>
+                //     </Modal.Footer>
+                // </Modal>
             }
             console.log("isUploadttonDisabled" + isUploadButtonDisabled)
             // For simplicity, we'll just add the new image to the existing images array.
@@ -85,7 +105,7 @@ const ImageGrid = ({
                 updateImages([...images, newImage])
                 // Reset the newImage state after handling the upload.
                 setNewImage(null)
-                window.location.reload();
+                window.location.reload()
             }
         }
     }
@@ -93,7 +113,7 @@ const ImageGrid = ({
     const handleDelete = async (event) => {
         if (selectedImage !== null) {
             let imageToDelete = ""
-            console.log(selectedImage);
+            console.log(selectedImage)
 
             const updatedImages = images.filter(
                 (image, index) => index !== selectedImage
@@ -112,6 +132,7 @@ const ImageGrid = ({
                     },
                 }
             )
+            setImageEvent(true)
             setSelectedImage(null)
         }
     }
@@ -141,79 +162,86 @@ const ImageGrid = ({
         document.body.removeChild(link)
     }
 
-  return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <h3 className="mt-6 mb-4" style={{ paddingTop: "40px" ,  fontWeight:"bold"}}>
-            Gallery Highlights
-          </h3>
-        </div>
-        <div
-          className="col-md-6 text-right"
-          style={{ paddingLeft: "400px", marginTop: "35px" }}
-        >
-          <div className="mb-3">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleFileInputChange}
-              ref={fileInputRef}
-              style={{ display: "none" }}
-            />
-            <button
-              className="btn btn-lg custom-button" 
-              onClick={handleUpload}
-              disabled={isUploadButtonDisabled}
-            >
-              Upload Image
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="row" style={{ marginTop: "30px" }}>
-        {images.map((image, index) => (
-          <div key={index} className="col-md-4 mb-3">
-            <div
-              className="card"
-              style={{ width: "22rem", marginBottom: "15px" }}
-            >
-              <img
-                src={image.signedUrl}
-                className="card-img-top"
-                alt={`Image ${index}`}
-                style={{ height: "220px", objectFit: "cover" }}
-                onClick={() => handleImageClick(index)}
-              />
-              <div className="card-body">
-                <h5 className="card-title text-center">{image.fileName}</h5>
-                {selectedImage === index && (
-                  <div className="d-flex justify-content-between mt-4">
-                    <button
-                      className="btn custom-button mr-6"
-                      onClick={handleDelete}
+    return (
+        <div className="container">
+            <div className="row">
+                <div className="col-md-6">
+                    <h3
+                        className="mt-6 mb-4"
+                        style={{ paddingTop: "40px", fontWeight: "bold" }}
                     >
-                      Delete
-                    </button>
-                    <button
-                      className="btn custom-button mr-2"
-                      onClick={() => handleView(index)}
-                    >
-                      View
-                    </button>
-                    <button
-                      className="btn custom-button"
-                      onClick={() => handleDownload(index)}
-                    >
-                      Download
-                    </button>
-                  </div>
-                )}
-              </div>
+                        Gallery Highlights
+                    </h3>
+                </div>
+                <div
+                    className="col-md-6 text-right"
+                    style={{ paddingLeft: "400px", marginTop: "35px" }}
+                >
+                    <div className="mb-3">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileInputChange}
+                            ref={fileInputRef}
+                            style={{ display: "none" }}
+                        />
+                        <button
+                            className="btn btn-lg custom-button"
+                            onClick={handleUpload}
+                            disabled={isUploadButtonDisabled}
+                        >
+                            Upload Image
+                        </button>
+                    </div>
+                </div>
             </div>
-          </div>
-        ))}
+
+            <div className="row" style={{ marginTop: "30px" }}>
+                {images.map((image, index) => (
+                    <div key={index} className="col-md-4 mb-3">
+                        <div
+                            className="card"
+                            style={{ width: "22rem", marginBottom: "15px" }}
+                        >
+                            <img
+                                src={image.signedUrl}
+                                className="card-img-top"
+                                alt={`Image ${index}`}
+                                style={{ height: "220px", objectFit: "cover" }}
+                                onClick={() => handleImageClick(index)}
+                            />
+                            <div className="card-body">
+                                <h5 className="card-title text-center">
+                                    {image.fileName}
+                                </h5>
+                                {selectedImage === index && (
+                                    <div className="d-flex justify-content-between mt-4">
+                                        <button
+                                            className="btn custom-button mr-6"
+                                            onClick={handleDelete}
+                                        >
+                                            Delete
+                                        </button>
+                                        <button
+                                            className="btn custom-button mr-2"
+                                            onClick={() => handleView(index)}
+                                        >
+                                            View
+                                        </button>
+                                        <button
+                                            className="btn custom-button"
+                                            onClick={() =>
+                                                handleDownload(index)
+                                            }
+                                        >
+                                            Download
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                ))}
 
                 {newImage && (
                     <div className="col-md-4 mb-3">
@@ -247,8 +275,12 @@ const ImageGrid = ({
                             <div className="modal-body">
                                 {selectedImage !== null && (
                                     <ImageViewer
-                                        imageUrl={images[selectedImage].signedUrl}
-                                        ImagefileName={images[selectedImage].fileName} 
+                                        imageUrl={
+                                            images[selectedImage].signedUrl
+                                        }
+                                        ImagefileName={
+                                            images[selectedImage].fileName
+                                        }
                                         onClose={handleCloseImageViewer}
                                     />
                                 )}

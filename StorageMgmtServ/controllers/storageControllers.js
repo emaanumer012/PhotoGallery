@@ -22,7 +22,6 @@ module.exports.checkstorage_get = async (req, res) => {
     //find user from database
     try {
         const curr_storage = await storage.retrieveUserDetails(id)
-        console.log(curr_storage)
         res.status(200).json(curr_storage.spaceOccupied)
     } catch (err) {
         // send back error that says no user with this space exists
@@ -58,7 +57,6 @@ module.exports.getimages_get = async (req, res) => {
         }
         res.status(200).json(signedUrls)
     } catch (err) {
-        console.error(err)
         res.status(500).json({ success: false, error: err.message })
     }
 }
@@ -82,7 +80,6 @@ module.exports.checkstorage_post = async (req, res) => {
 module.exports.addimage_post = async (req, res) => {
     const userId = req.body.id
     const fileSizeMB = req.body.size / (1024 * 1024)
-    console.log(curr_user.spaceOccupied)
     try {
         if (curr_user.spaceOccupied + fileSizeMB <= STORAGE_LIMIT) {
             const originalName = req.file.originalname
@@ -120,13 +117,6 @@ module.exports.addimage_post = async (req, res) => {
                             },
                         },
                         { new: true }
-                    )
-                    console.log(
-                        "sending" +
-                            userId +
-                            " and " +
-                            fileSizeMB +
-                            "to event bus"
                     )
                     console.log("Image uploaded to bucket:", imageURL)
                     await axios.post("http://localhost:3003/events", {
