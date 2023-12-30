@@ -113,7 +113,7 @@ const ImageGrid = ({
     }
 
     const handleDelete = async (event) => {
-        if (selectedImage !== null && selectedImage < images.length) {
+        if (selectedImage !== null) {
             const updatedImages = images.filter((_, index) => index !== selectedImage);
             setSelectedImage(null);
             updateImages(updatedImages);
