@@ -8,15 +8,21 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import StorageMonitoring from "./StorageMonitoring"
+import UMFooter from "./UMFooter"
 
 const Dashboard = (props) => {
     const [images, setImages] = useState([])
     const [isUploadButtonDisabled, setUploadButtonDisabled] = useState(false) // Initial state
+    const [disableDelete, setDisableDelete] = useState(false)
     const [imageEvent, setImageEvent] = useState(false)
-    const { id } = props
+    const { id, name } = props
 
     const handleDataFromChildren = (value) => {
         setUploadButtonDisabled(value)
+        console.log("disable button is now " + isUploadButtonDisabled)
+    }
+    const handleDelete = (value) => {
+        setDisableDelete(value)
     }
 
     // get an array that is  {fileName, originalURL, signedURL}
@@ -44,16 +50,18 @@ const Dashboard = (props) => {
     return (
         <div>
             <div>
-                <DashboardNavbar id={id} />
+                <DashboardNavbar name={name} />
                 <DashboardHeroSection />
             </div>
             <div>
                 <div>
+                    <UMFooter />
                     <UsageMonitoring
                         onChange={handleDataFromChildren}
                         id={id}
                         imageEvent={imageEvent}
                         setImageEvent={setImageEvent}
+                        handleDelete={handleDelete}
                     />
                     <StorageMonitoring
                         onChange={handleDataFromChildren}
@@ -62,7 +70,6 @@ const Dashboard = (props) => {
                         setImageEvent={setImageEvent}
                     />
                 </div>
-                {/* <UMFooter /> */}
             </div>
             {/* <div>
                 <Monitoring
@@ -76,6 +83,8 @@ const Dashboard = (props) => {
                 isUploadButtonDisabled={isUploadButtonDisabled}
                 id={id}
                 setImageEvent={setImageEvent}
+                setUploadButtonDisabled={setUploadButtonDisabled}
+                disableDelete={disableDelete}
                 // currUsedStorage={currUsedStorage}
             />
             <Footer />
