@@ -70,6 +70,7 @@ const Dashboard = (props) => {
                         setImageEvent={setImageEvent}
                     />
                 </div>
+                <br/>
             </div>
             {/* <div>
                 <Monitoring

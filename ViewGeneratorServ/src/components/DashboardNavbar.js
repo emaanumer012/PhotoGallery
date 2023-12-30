@@ -22,15 +22,13 @@ const DashboardNavbar = (props) => {
                         className="d-inline-block align-top"
                     />{" "}
                     <b style={{ paddingTop: "20px", fontSize: "25px" }}>
-                        &nbsp;ImageGallery
+                        &nbsp;L'IAME Vault
                     </b>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-nav" />
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="ms-auto">
-                        {/* parameter will be passed like this */}
-                        {/* <Nav.Link as={Link} to={`/home/${id}`} style={{ color: "black" }}> */}
-                        {/* clicking on this will redirect to dashboard */}
+                        
                         <Nav.Link href="/home" style={{ color: "black" }}>
                             Home
                         </Nav.Link>

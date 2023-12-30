@@ -107,18 +107,14 @@ const ImageGrid = ({
     }
 
     const handleDelete = async (event) => {
-        if (selectedImage !== null) {
-            let imageToDelete = ""
-            console.log(selectedImage)
-
-            const updatedImages = images.filter(
-                (image, index) => index !== selectedImage
-            )
-            console.log(images[selectedImage])
-            imageToDelete = images[selectedImage]
-            imageToDelete["id"] = id
-            console.log(imageToDelete)
-            updateImages(updatedImages)
+        if (selectedImage !== null && selectedImage < images.length) {
+            const updatedImages = images.filter((_, index) => index !== selectedImage);
+            setSelectedImage(null);
+            updateImages(updatedImages);
+    
+            let imageToDelete = images[selectedImage];
+            imageToDelete["id"] = id;
+    
             const res = await axios.post(
                 "http://localhost:3001/delete-image",
                 imageToDelete,
@@ -127,10 +123,11 @@ const ImageGrid = ({
                         "Content-Type": "application/json",
                     },
                 }
-            )
-            setImageEvent(true)
-            setSelectedImage(null)
-            toast.success("Image deleted sucessfully!", {
+            );
+    
+            setImageEvent(true);
+    
+            toast.success("Image deleted successfully!", {
                 position: "top-center",
                 autoClose: 3000,
                 hideProgressBar: false,
@@ -139,10 +136,10 @@ const ImageGrid = ({
                 draggable: true,
                 progress: undefined,
                 theme: "light",
-            })
+            });
         }
-    }
-
+    };
+    
     const handleView = (index) => {
         setSelectedImage(index)
         setShowImageViewer(true)
@@ -202,6 +199,8 @@ const ImageGrid = ({
                     </div>
                 </div>
             </div>
+            <br/>
+            <br/>
 
             <div className="row" style={{ marginTop: "30px" }}>
                 {images.map((image, index) => (

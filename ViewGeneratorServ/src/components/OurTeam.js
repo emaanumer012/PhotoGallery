@@ -35,8 +35,8 @@ const OurTeam = () => {
     {
       name: "Abdullah Tahir",
       role: "Software Engineer",
-      linkedin: "linkedin.com/in/abdullahtahir",
-      github: "github.com/abdullahtahir",
+      linkedin: "linkedin.com/in/abdullah-tahir-9117a4218",
+      github: "github.com/abdullahtahirrr",
     },
     {
       name: "Emaan Umer",
@@ -47,8 +47,8 @@ const OurTeam = () => {
     {
       name: "Imaan Ibrar",
       role: "Software Engineer",
-      linkedin: "linkedin.com/in/imaanibrar",
-      github: "github.com/imaanibrar",
+      linkedin: "linkedin.com/in/imaan-ibrar-b62231237",
+      github: "github.com/ImaanIbrar",
     },
     {
       name: "Marriam Naeem",
@@ -59,7 +59,7 @@ const OurTeam = () => {
     {
       name: "Laiba Atiq",
       role: "Software Engineer",
-      linkedin: "linkedin.com/in/laibaatiq",
+      linkedin: "linkedin.com/in/laiba-atiq-023a691a0",
       github: "github.com/laibaatiq",
     },
   ];

@@ -154,7 +154,7 @@ const Login = () => {
                                             marginLeft: "120px",
                                         }}
                                     >
-                                        Submit
+                                        Login
                                     </button>
                                 </form>
                                 <p

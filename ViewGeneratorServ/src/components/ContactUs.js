@@ -14,15 +14,15 @@ const ContactUs = () => {
       <div className="contact-cards">
         <div className="contact-card">
           <img src={logo1} alt="Logo 1" />
-          <p>Contact Us at Your App Name</p>
+          <p>Contact Us at info@liamevault.com</p>
         </div>
         <div className="contact-card">
           <img src={logo2} alt="Logo 2" />
-          <p>Contact Us at Your App Name</p>
+          <p>Contact Us at L'IAME Vault</p>
         </div>
         <div className="contact-card">
           <img src={logo3} alt="Logo 3" />
-          <p>Contact Us at Your App Name</p>
+          <p>Contact Us at L'IAME Vault</p>
         </div>
       </div>
     </div>

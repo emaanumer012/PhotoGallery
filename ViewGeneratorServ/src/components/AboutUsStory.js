@@ -9,13 +9,13 @@ const AboutUsStory = () => {
       <div className="about-content">
         <h2>Our Vision</h2>
         <p>
-          Welcome to the heart of <b>ImageGallery</b>, where our vision unfolds
+          Welcome to the heart of <b>L'IAME</b>, where our vision unfolds
           in pixels and stories. Our journey began with a simple yet profound
           idea — to create a digital sanctuary for memories, emotions, and
           creativity.
         </p>
         <p>
-          At ImageGallery, we believe in the power of every image to convey
+          At <strong>L'IAME</strong>, we believe in the power of every image to convey
           emotion, tell a story, and connect people across boundaries. Our
           platform is crafted with love and commitment to provide you with a
           space where your visual tales find a home.

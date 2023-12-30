@@ -5,7 +5,7 @@ import image from "./Assets/mon.png"
 
 const UMFooter = () => {
     const ColorLegend = () => (
-        <div className="legend-container mt-4" style={{ marginLeft: "40px" }}>
+        <div className="legend-container mt-4" style={{ marginLeft: "40px" , paddingLeft:"70px", paddingBottom:"20px"}}>
             <br />
             <br />
             <h3>Color Key</h3>

@@ -2,14 +2,12 @@ import React from "react"
 import { Navbar, Nav, Container } from "react-bootstrap"
 import { Link } from "react-router-dom"
 
-// Import your logo image
 import logo from "./Assets/logo.png"
 
 const StaticNavbar = () => {
     return (
         <Navbar bg="light" variant="light" expand="lg">
             <Container>
-                {/* Use the imported logo image */}
                 <Navbar.Brand
                     as={Link}
                     to="/"
@@ -23,7 +21,7 @@ const StaticNavbar = () => {
                         className="d-inline-block align-top me-2"
                     />
                     <span className="ms-2">
-                        <b>Image Gallery</b>
+                        <b>L'IAME Vault</b>
                     </span>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-nav" />
