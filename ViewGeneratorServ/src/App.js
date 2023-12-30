@@ -25,8 +25,11 @@ function App() {
         // For simplicity, I'll just toggle it for demonstration purposes
         setLoggedIn(!isLoggedIn)
     }
-    let id = "658eeec2df416508f6f3d920"
-    let name = "Emaan Umer"
+
+    let auth= localStorage.getItem("authToken");
+    const authToken = JSON.parse(auth);
+
+    // let name = localStorage.getItem("authToken.name");
 
     return (
         <Router>
@@ -35,7 +38,7 @@ function App() {
                     <Route path="/" element={<StaticPage />} />
                     <Route
                         path="/home"
-                        element={<Dashboard id={id} name={name} />}
+                        element={<Dashboard id={authToken.user} name={authToken.name} />}
                     />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />

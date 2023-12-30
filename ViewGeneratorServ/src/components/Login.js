@@ -44,10 +44,12 @@ const Login = () => {
             // })
             // Call onLogin to notify the parent component of successful login
             // props.onLogin();
-            console.log(res.data)
-            const token = res.data.token
+            // console.log(res.data)
+            // const token = res.data.token
             // Set the authentication token
-            setAuthToken(token)
+            const jsonObject = JSON.stringify(res.data);
+            localStorage.setItem("authToken",jsonObject)
+            // setAuthToken(token)
             navigate("/home")
             setEmail("")
             setPassword("")
