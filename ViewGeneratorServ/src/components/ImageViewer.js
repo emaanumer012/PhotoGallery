@@ -48,6 +48,7 @@ const ImageViewer = ({ imageUrl, ImagefileName, onClose }) => {
             Close
           </button>
         </div>
+        <br/>
         <img
           src={imageUrl}
           alt="Enlarged View"
