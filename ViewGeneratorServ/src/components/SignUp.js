@@ -38,10 +38,12 @@ const SignUp = () => {
                 password,
             })
             console.log(res.data)
-            const token = res.data.token
+            const jsonObject = JSON.stringify(res.data);
+            localStorage.setItem("authToken",jsonObject);
+            // const token = res.data.token
             // Set the authentication token
-            setAuthToken(token)
-            navigate("/home")
+            // setAuthToken(token)
+            window.location.href = '/home'
         } catch (err) {
             // console.log(err.response.data)
             emailError.textContent = err.response.data.email

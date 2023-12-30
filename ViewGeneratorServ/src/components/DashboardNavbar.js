@@ -2,11 +2,17 @@ import React, { useEffect } from "react"
 import { Navbar, Nav, Container } from "react-bootstrap"
 import axios from "axios"
 import logo from "./Assets/logo.png"
+import { useNavigate } from "react-router-dom"
 
 const DashboardNavbar = (props) => {
     const { name } = props
+    const navigate = useNavigate();
+
     const logout = async () => {
-        await axios.get("http://localhost:3000/logout")
+        localStorage.removeItem('authToken');
+        navigate("/")
+
+        // await axios.get("http://localhost:3000/logout")
     }
 
     return (

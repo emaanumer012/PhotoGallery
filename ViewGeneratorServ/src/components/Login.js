@@ -7,7 +7,7 @@ import display_image from "./Assets/displayimg.png"
 import { useNavigate } from "react-router-dom"
 import setAuthToken from "../utils/setAuthToken"
 
-const Login = () => {
+const Login = ({ handleLogin }) => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showAlert, setShowAlert] = useState(false)
@@ -37,28 +37,26 @@ const Login = () => {
                 email,
                 password,
             })
-            // .then((response) => {
-            //     const token = response.data.token
-            //     localStorage.setItem("token", token)
-            //     setAuthToken(token)
-            // })
-            // Call onLogin to notify the parent component of successful login
-            // props.onLogin();
-            // console.log(res.data)
-            // const token = res.data.token
-            // Set the authentication token
+
             const jsonObject = JSON.stringify(res.data);
             localStorage.setItem("authToken",jsonObject)
-            // setAuthToken(token)
-            navigate("/home")
+            // await new Promise((resolve) => setTimeout(resolve, 1000))
+    //         onLogin();
+    // await handleLogin(email,password);
+
+
+    //         // setAuthToken(token)
             setEmail("")
             setPassword("")
+            window.location.href = '/home'
+            // navigate("/home")
         } catch (err) {
-            console.log(err.response.data)
+            console.log(err.response.data||err)
             emailError.textContent = err.response.data.email
             passwordError.textContent = err.response.data.password
         }
     }
+
 
     return (
         <div

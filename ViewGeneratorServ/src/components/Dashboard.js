@@ -9,6 +9,7 @@ import { useEffect, useState } from "react"
 import "bootstrap/dist/css/bootstrap.css"
 import StorageMonitoring from "./StorageMonitoring"
 import UMFooter from "./UMFooter"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const Dashboard = (props) => {
     const [images, setImages] = useState([])
@@ -16,7 +17,7 @@ const Dashboard = (props) => {
     const [disableDelete, setDisableDelete] = useState(false)
     const [imageEvent, setImageEvent] = useState(false)
     const { id, name } = props
-
+    const navigate = useLocation();
     const handleDataFromChildren = (value) => {
         setUploadButtonDisabled(value)
         console.log("disable button is now " + isUploadButtonDisabled)
@@ -40,9 +41,10 @@ const Dashboard = (props) => {
     }
 
     useEffect(() => {
-        fetchStorageDetails()
-    }, [id])
+        id && fetchStorageDetails()
+    }, [id, navigate.pathname])
 
+    
     const updateImages = (newImages) => {
         setImages(newImages)
     }

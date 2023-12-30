@@ -43,13 +43,13 @@ module.exports.signup_post = async (req, res) => {
     try {
         const user = await User.create({ name, email, password })
         const token = createToken(user._id)
-        res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
+        // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
         await axios.post("http://localhost:3003/events", {
             type: "UserCreated",
             data: user._id,
         })
         console.log({ user, token })
-        res.status(201).json({ user, token })
+        res.status(201).json({ user: user._id, token: token,name:user.name })
     } catch (err) {
         const errors = handleErrors(err)
         res.status(400).json(errors)
@@ -75,9 +75,9 @@ module.exports.login_post = async (req, res) => {
 }
 
 // logout a user   Problem: Giving axios network error
-module.exports.logout_get = async (req, res) => {
-    res.cookie("jwt", "", { maxAge: 1 })
-}
+// module.exports.logout_get = async (req, res) => {
+//     res.cookie("jwt", "", { maxAge: 1 })
+// }
 
 // find a user by their email and returns all user data, including id.
 module.exports.user_get = async (req, res) => {
