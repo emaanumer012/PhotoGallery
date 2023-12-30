@@ -3,7 +3,13 @@ import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap"
 import "bootstrap/dist/css/bootstrap.min.css"
 import axios from "axios"
 
-const UsageMonitoring = ({ onChange, id, imageEvent, setImageEvent }) => {
+const UsageMonitoring = ({
+    onChange,
+    id,
+    imageEvent,
+    setImageEvent,
+    handleDelete,
+}) => {
     const [dailyUsage, setDailyUsage] = useState(0)
     const [usageExceeded, setUsageExceeded] = useState(false)
     const [showUsageExceededModal, setShowUsageExceededModal] = useState(false)
@@ -14,13 +20,15 @@ const UsageMonitoring = ({ onChange, id, imageEvent, setImageEvent }) => {
             const res = await axios.get(
                 `http://localhost:3002/users/${id}/usage`
             )
-            setDailyUsage(res.data)
-
-            if (parseInt(dailyUsage, 10) >= 25) {
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+            const currentUsage = res.data
+            setDailyUsage(currentUsage)
+            console.log("getting current limit" + currentUsage)
+            if (parseInt(currentUsage, 10) === 25) {
                 setShowUsageExceededModal(true)
                 setUsageExceeded(true)
-                console.log("usage exceeded is " + usageExceeded)
-            } else if (parseInt(dailyUsage, 10) < 25) {
+                console.log("usage exceeded is " + currentUsage)
+            } else if (parseInt(currentUsage, 10) < 25) {
                 setUsageExceeded(false)
             }
         } catch (err) {
@@ -43,6 +51,7 @@ const UsageMonitoring = ({ onChange, id, imageEvent, setImageEvent }) => {
 
     useEffect(() => {
         onChange(usageExceeded)
+        handleDelete(usageExceeded)
     }, [usageExceeded])
 
     const calculateDailyUsageColor = () => {

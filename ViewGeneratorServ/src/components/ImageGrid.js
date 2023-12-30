@@ -5,22 +5,28 @@ import ImageViewer from "./ImageViewer"
 import "typeface-montserrat"
 import axios from "axios"
 import "./ImageGrid.css"
+import { ToastContainer, toast } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
 import { Modal, Button, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 const ImageGrid = ({
     images,
     updateImages,
-    // isUploadButtonDisabled,
+    isUploadButtonDisabled,
     id,
     setImageEvent,
+    setUploadButtonDisabled,
+    disableDelete,
     // currUsedStorage
 }) => {
     const [newImage, setNewImage] = useState(null)
     const [selectedImage, setSelectedImage] = useState(null) // Keeps track of the index of the selected image in the gallery
     const [showImageViewer, setShowImageViewer] = useState(false) //Controls the visibility of the image viewer modal
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
-    const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false)
+    // const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false)
     //let id = "658e859287ffc8192ad17e18"
+
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
         if (newImage) {
@@ -56,18 +62,17 @@ const ImageGrid = ({
     const handleFileInputChange = async (event) => {
         // Check if a file was selected
         if (event.target.files.length > 0) {
-            // Handle the selected file by calling handleImageChange
-            handleImageChange(event)
             const file = event.target.files[0]
             const spaceOccupied = (
                 await axios.get(`http://localhost:3001/users/${id}/storage`)
             ).data
             const fileSizeMB = file.size / (1024 * 1024)
-            console.log("file size is" + fileSizeMB)
             if (fileSizeMB + spaceOccupied > 10) {
                 alert("Error! Not enough storage available")
             } else {
-                setIsUploadButtonDisabled(false)
+                setUploadButtonDisabled(false)
+                // Handle the selected file by calling handleImageChange
+                handleImageChange(event)
                 const formData = new FormData()
                 formData.append("image", file)
                 formData.append("id", id)
@@ -78,25 +83,16 @@ const ImageGrid = ({
                     },
                 })
                 setImageEvent(true)
-                {
-                    /* Success Modal */
-                }
-                // ;<Modal show={true} onHide={() => setShowWarningModal(false)}>
-                //     <Modal.Header closeButton>
-                //         <Modal.Title> Success</Modal.Title>
-                //     </Modal.Header>
-                //     <Modal.Body>
-                //         <p>Image Added Successfully!</p>
-                //     </Modal.Body>
-                //     <Modal.Footer>
-                //         <Button
-                //             variant="primary"
-                //             onClick={() => setShowWarningModal(false)}
-                //         >
-                //             OK
-                //         </Button>
-                //     </Modal.Footer>
-                // </Modal>
+                toast.success("Image added sucessfully!", {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
             }
             console.log("isUploadttonDisabled" + isUploadButtonDisabled)
             // For simplicity, we'll just add the new image to the existing images array.
@@ -134,6 +130,16 @@ const ImageGrid = ({
             )
             setImageEvent(true)
             setSelectedImage(null)
+            toast.success("Image deleted sucessfully!", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
         }
     }
 
@@ -164,6 +170,7 @@ const ImageGrid = ({
 
     return (
         <div className="container">
+            <ToastContainer />
             <div className="row">
                 <div className="col-md-6">
                     <h3
@@ -219,6 +226,7 @@ const ImageGrid = ({
                                         <button
                                             className="btn custom-button mr-6"
                                             onClick={handleDelete}
+                                            disabled={disableDelete}
                                         >
                                             Delete
                                         </button>

@@ -11,27 +11,28 @@ const StorageMonitoring = ({ onChange, id, imageEvent, setImageEvent }) => {
         useState(false)
     const [showWarningModal, setShowWarningModal] = useState(false)
 
-    //let id = "658e859287ffc8192ad17e18";
-
     const fetchUsedStorageDetails = async () => {
         try {
             const response = await axios.get(
                 `http://localhost:3001/users/${id}/storage`
             )
-            setTotalStorage((response.data * 10).toFixed(1))
+            await new Promise((resolve) => setTimeout(resolve, 1000))
 
-            if (totalStorage === 100) {
+            const currSpace = (response.data * 10).toFixed(1)
+            console.log(currSpace)
+            setTotalStorage(currSpace)
+
+            if (currSpace == 100.0) {
+                console.log("full")
                 setStorageExceeded(true)
                 setShowStorageExceededModal(true)
-            } else {
-                setStorageExceeded(false)
-            }
-
-            if (totalStorage >= 80 && !warning) {
+            } else if (currSpace >= 80.0 && !warning) {
                 setShowWarningModal(true)
                 setWarningGiven(true)
-            } else if (totalStorage < 80 && warning) {
+            } else if (currSpace < 80.0 && warning) {
                 setWarningGiven(false)
+            } else {
+                setStorageExceeded(false)
             }
         } catch (err) {
             console.log(err.message)

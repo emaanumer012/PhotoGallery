@@ -9,7 +9,6 @@ import StaticPage from "./components/StaticPage"
 import Error404 from "./components/Error404"
 import AboutUs from "./components/AboutUs"
 import Monitoring from "./components/Monitoring"
-import Logout from "./components/Logout"
 
 function App() {
     const [currentForm, setCurrentForm] = useState("Login")
@@ -27,19 +26,22 @@ function App() {
         setLoggedIn(!isLoggedIn)
     }
     let id = "658eeec2df416508f6f3d920"
+    let name = "Emaan Umer"
 
     return (
         <Router>
             <div>
                 <Routes>
                     <Route path="/" element={<StaticPage />} />
-                    <Route path="/home" element={<Dashboard id={id} />} />
+                    <Route
+                        path="/home"
+                        element={<Dashboard id={id} name={name} />}
+                    />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/monitoring" element={<Monitoring />} />
                     <Route path="/about" element={<AboutUs />} />
                     <Route path="/404" element={<Error404 />} />
-                    <Route path="/logout" element={<Logout />} />
                 </Routes>
             </div>
         </Router>

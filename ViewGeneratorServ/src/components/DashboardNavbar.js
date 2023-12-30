@@ -1,12 +1,13 @@
 import React, { useEffect } from "react"
 import { Navbar, Nav, Container } from "react-bootstrap"
-
+import axios from "axios"
 import logo from "./Assets/logo.png"
-import profilePic from "./Assets/profilepic.png"
 
 const DashboardNavbar = (props) => {
-    const { id } = props
-    console.log(id)
+    const { name } = props
+    const logout = async () => {
+        await axios.get("http://localhost:3000/logout")
+    }
 
     return (
         <Navbar bg="light" variant="light" expand="lg">
@@ -42,25 +43,17 @@ const DashboardNavbar = (props) => {
                         </Nav.Link>
                         {/* clicking on this will Logout */}
                         <Nav.Link
-                            href="/logout"
+                            href="/"
                             style={{ color: "black", paddingLeft: "30px" }}
+                            onClick={logout}
                         >
                             Logout
                         </Nav.Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </Nav>
                     <Nav>
-                        <Nav.Link
-                            href="#profile"
-                            style={{ marginRight: "15px" }}
-                        >
-                            <img
-                                src={profilePic}
-                                alt="Profile"
-                                width="40"
-                                height="40"
-                                className="d-inline-block align-top rounded-circle"
-                            />
+                        <Nav.Link style={{ marginRight: "15px" }}>
+                            {name}
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
