@@ -42,7 +42,7 @@ const DashboardNavbar = (props) => {
                         </Nav.Link>
                         {/* clicking on this will Logout */}
                         <Nav.Link
-                            href="/logout"
+                            href="/"
                             style={{ color: "black", paddingLeft: "30px" }}
                         >
                             Logout
