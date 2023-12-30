@@ -26,6 +26,8 @@ const ImageGrid = ({
     const fileInputRef = useRef(null) // A reference to the file input element used for uploading images
     // const [isUploadButtonDisabled, setIsUploadButtonDisabled] = useState(false)
     //let id = "658e859287ffc8192ad17e18"
+        const [showStorageExceededModal, setShowStorageExceededModal] =
+        useState(false)
 
     useEffect(() => {
         // Handle the upload to the server or storage after newImage is updated
@@ -68,8 +70,12 @@ const ImageGrid = ({
             ).data
             const fileSizeMB = file.size / (1024 * 1024)
             if (fileSizeMB + spaceOccupied > 10) {
-                alert("Error! Not enough storage available")
-            } else {
+                setShowStorageExceededModal(true)
+            }
+            else if (spaceOccupied === 10){
+                setUploadButtonDisabled(true)
+            }
+             else {
                 setUploadButtonDisabled(false)
                 // Handle the selected file by calling handleImageChange
                 handleImageChange(event)
@@ -160,11 +166,12 @@ const ImageGrid = ({
         const link = document.createElement("a");
         link.href = image.signedUrl;
         link.target = "_blank"; // Open in a new tab/window
-        link.download = `Image_${index + 1}`;
+        link.download = image.fileName; // Use the fileName from the image object
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
+    
     
 
     return (
@@ -298,7 +305,33 @@ const ImageGrid = ({
                     </div>
                 </div>
             </div>
+
+            <Modal
+                show={showStorageExceededModal}
+                onHide={() => setShowStorageExceededModal(false)}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>Storage Exceeded</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Not Enough Space Available</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="primary"
+                        onClick={() => setShowStorageExceededModal(false)}
+                    >
+                        OK
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
+
+
+
+
+
+
     )
 }
 
