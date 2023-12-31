@@ -21,7 +21,7 @@ const handleEvent = async (type, data) => {
     if (type === "UserCreated") {
         console.log("User Created")
         console.log(data)
-        await axios.post(`http://localhost:3001/users/${data}/storage`)
+        await axios.post(`http://storagemgmtserv-srv:3001/users/${data}/storage`)
     }
 }
 

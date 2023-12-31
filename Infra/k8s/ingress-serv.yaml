@@ -1,0 +1,70 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    
+spec:
+  rules:
+    - host: liamevault.com
+      http:
+        paths:
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: useraccmgmtserv-srv
+                port:
+                  number: 3006
+          - path: /signup
+            pathType: Prefix
+            backend:
+              service:
+                name: useraccmgmtserv-srv
+                port:
+                  number: 3006
+          - path: /users/?(.*)/storage
+            pathType: Prefix
+            backend:
+              service:
+                name: storagemgmtserv-srv
+                port:
+                  number: 3001
+          - path: /users/?(.*)/usage
+            pathType: Prefix
+            backend:
+              service:
+                name: usagemntrserv-srv
+                port:
+                  number: 3002
+          - path: /add-image
+            pathType: Prefix
+            backend:
+              service:
+                name: storagemgmtserv-srv
+                port:
+                  number: 3001
+          - path: /delete-image
+            pathType: Prefix
+            backend:
+              service:
+                name: storagemgmtserv-srv
+                port:
+                  number: 3001
+          - path: /users/?(.*)/get-images
+            pathType: Prefix
+            backend:
+              service:
+                name: storagemgmtserv-srv
+                port:
+                  number: 3001
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: viewgeneratorserv-srv
+                port:
+                  number: 3000

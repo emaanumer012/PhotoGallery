@@ -8,7 +8,7 @@ module.exports.checkusage_get = async (req, res) => {
     const id = req.params.id
     try {
         const curr_usage = await Usage.retrieveUsageDetails(id)
-        await axios.post(`http://localhost:3002/users/${id}/check-usage-time`)
+        await axios.post(`http://usagemntrserv-srv:3002/users/${id}/check-usage-time`)
         res.status(200).json(curr_usage.currUsedLimit)
     } catch (err) {
         console.error(err)

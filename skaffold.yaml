@@ -1,0 +1,61 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  # local:
+  #   push: false
+  googleCloudBuild:
+    projectId: liamevault
+
+  artifacts:
+    - image: us.gcr.io/liamevault/eventmgmtbus
+      context: EventMgmtBus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: us.gcr.io/liamevault/loggingserv
+      context: LoggingServ
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: us.gcr.io/liamevault/useraccmgmtserv
+      context: userAccMgmtServ
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: us.gcr.io/liamevault/storagemgmtserv
+      context: StorageMgmtServ
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: us.gcr.io/liamevault/usagemntrserv
+      context: UsageMntrServ
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .
+    - image: us.gcr.io/liamevault/viewgeneratorserv
+      context: ViewGeneratorServ
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: "*.js"
+            dest: .

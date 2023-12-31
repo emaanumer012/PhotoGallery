@@ -1,0 +1,22 @@
+{
+  "userId": "65904ae1ddfa6910a28de33c",
+  "timestamp": 1703955174327,
+  "logs": [
+    {
+      "event": "User just added an image",
+      "timestamp": 1703956332177
+    },
+    {
+      "event": "User just added an image",
+      "timestamp": 1703956364229
+    },
+    {
+      "event": "User just deleted an image",
+      "timestamp": 1703956558088
+    },
+    {
+      "event": "User just deleted an image",
+      "timestamp": 1703956744150
+    }
+  ]
+}

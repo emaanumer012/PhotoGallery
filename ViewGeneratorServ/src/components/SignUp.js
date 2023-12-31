@@ -32,7 +32,7 @@ const SignUp = () => {
         setShowAlert(false)
 
         try {
-            const res = await axios.post("http://localhost:3000/signup", {
+            const res = await axios.post("http://liamevault.com/signup", {
                 name,
                 email,
                 password,
