@@ -18,7 +18,7 @@ const UsageMonitoring = ({
         console.log("usage details called")
         try {
             const res = await axios.get(
-                `http://localhost:3002/users/${id}/usage`
+                `http://liamevault.com/users/${id}/usage`
             )
             await new Promise((resolve) => setTimeout(resolve, 1000))
             const currentUsage = res.data

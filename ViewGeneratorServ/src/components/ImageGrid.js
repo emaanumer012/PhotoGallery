@@ -66,7 +66,7 @@ const ImageGrid = ({
         if (event.target.files.length > 0) {
             const file = event.target.files[0]
             const spaceOccupied = (
-                await axios.get(`http://localhost:3001/users/${id}/storage`)
+                await axios.get(`http://liamevault.com/users/${id}/storage`)
             ).data
             const fileSizeMB = file.size / (1024 * 1024)
             if (fileSizeMB + spaceOccupied > 10) {
@@ -83,7 +83,7 @@ const ImageGrid = ({
                 formData.append("image", file)
                 formData.append("id", id)
                 formData.append("size", file.size)
-                await axios.post("http://localhost:3001/add-image", formData, {
+                await axios.post("http://liamevault.com/add-image", formData, {
                     headers: {
                         "Content-Type": "multipart/form-data",
                     },
@@ -122,7 +122,7 @@ const ImageGrid = ({
             imageToDelete["id"] = id;
     
             const res = await axios.post(
-                "http://localhost:3001/delete-image",
+                "http://liamevault.com/delete-image",
                 imageToDelete,
                 {
                     headers: {

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: storagemgmtserv-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: storagemgmtserv
+  template:
+    metadata:
+      labels:
+        app: storagemgmtserv
+    spec:
+      containers:
+        - name: storagemgmtserv
+          image: us.gcr.io/liamevault/storagemgmtserv
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: storagemgmtserv-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: storagemgmtserv
+  ports:
+    - name: storagemgmtserv
+      protocol: TCP
+      port: 3001
+      targetPort: 3001

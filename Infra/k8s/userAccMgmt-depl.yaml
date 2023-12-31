@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: useraccmgmtserv-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: useraccmgmtserv
+  template:
+    metadata:
+      labels:
+        app: useraccmgmtserv
+    spec:
+      containers:
+        - name: useraccmgmtserv
+          image: us.gcr.io/liamevault/useraccmgmtserv
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: useraccmgmtserv-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: useraccmgmtserv
+  ports:
+    - name: useraccmgmtserv
+      protocol: TCP
+      port: 3006
+      targetPort: 3006

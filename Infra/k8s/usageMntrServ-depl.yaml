@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: usagemntrserv-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usagemntrserv
+  template:
+    metadata:
+      labels:
+        app: usagemntrserv
+    spec:
+      containers:
+        - name: usagemntrserv
+          image: us.gcr.io/liamevault/usagemntrserv
+---
+apiVersion: v1
+kind: Service
+metadata: 
+  name: usagemntrserv-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: usagemntrserv
+  ports:
+    - name: usagemntrserv
+      protocol: TCP
+      port: 3002
+      targetPort: 3002

@@ -31,7 +31,7 @@ const Dashboard = (props) => {
         try {
             // console.log(id)
             const res = await axios.get(
-                `http://localhost:3001/users/${id}/get-images`
+                `http://liamevault.com/users/${id}/get-images`
             )
             setImages(res.data)
             console.log(res.data)

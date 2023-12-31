@@ -35,8 +35,6 @@ function App() {
         }
     },[])
 
-    // let name = localStorage.getItem("authToken.name");
-
     return (
         <Router>
             <div>

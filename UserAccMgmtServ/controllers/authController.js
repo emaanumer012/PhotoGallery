@@ -44,10 +44,24 @@ module.exports.signup_post = async (req, res) => {
         const user = await User.create({ name, email, password })
         const token = createToken(user._id)
         // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
-        await axios.post("http://localhost:3003/events", {
+        await axios.post("http://eventmgmtbus-srv:3003/events", {
             type: "UserCreated",
             data: user._id,
+            name:user.name,
+            email:email
         })
+        // await axios.post("http://storagemgmtserv-srv:3001/events", {
+        //     type: "UserCreated",
+        //     data: user._id,
+        //     name:user.name,
+        //     email:email
+        // })
+        // await axios.post("http://usagemntrserv-srv:3002/events", {
+        //     type: "UserCreated",
+        //     data: user._id,
+        //     name:user.name,
+        //     email:email
+        // })
         console.log({ user, token })
         res.status(201).json({ user: user._id, token: token,name:user.name })
     } catch (err) {
