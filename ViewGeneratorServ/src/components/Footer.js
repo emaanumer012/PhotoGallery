@@ -1,6 +1,6 @@
 import React from "react";
-import "./Footer.css"; // Import the CSS file for styling
-import logo from "./Assets/logo.png"; // Import your logo image
+import "./Footer.css"; 
+import logo from "./Assets/logo.png"; 
 
 const Footer = () => {
   return (

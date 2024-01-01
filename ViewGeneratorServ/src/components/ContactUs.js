@@ -1,10 +1,9 @@
 import React from "react";
-import "./ContactUs.css"; // Import the CSS file for styling
-import movingImage from "./Assets/contact.png"; // Import your moving image
-import logo1 from "./Assets/logo1.png"; // Import your first logo
-import logo2 from "./Assets/logo2.jpg"; // Import your second logo
-import logo3 from "./Assets/logo3.png"; // Import your third logo
-
+import "./ContactUs.css"; 
+import movingImage from "./Assets/contact.png"; 
+import logo1 from "./Assets/logo1.png"; 
+import logo2 from "./Assets/logo2.jpg"; 
+import logo3 from "./Assets/logo3.png"; 
 const ContactUs = () => {
   return (
     <div className="contact-us-container">

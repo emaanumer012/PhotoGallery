@@ -12,18 +12,10 @@ import Monitoring from "./components/Monitoring"
 
 
 function App() {
-    const [currentForm, setCurrentForm] = useState("Login")
     const [isLoggedIn, setLoggedIn] = useState(false)
     
-    const toggleForm = (formName) => {
-        setCurrentForm(formName)
-    }
 
     const handleLogin = () => {
-        // You need to implement the logic for checking the correctness of the login
-        // If the login is correct, toggle the isLoggedIn state
-        // Otherwise, handle the incorrect login case accordingly
-        // For simplicity, I'll just toggle it for demonstration purposes
         setLoggedIn(!isLoggedIn)
     }
 

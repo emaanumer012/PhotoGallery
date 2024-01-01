@@ -1,11 +1,11 @@
 .footer-container {
-  background-color: #186f9a; /* Set background color */
+  background-color: #186f9a; 
   padding: 20px;
   text-align: center;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: #fdfeff; /* Set text color */
+  color: #fdfeff; 
 }
 
 .footer-logo img {

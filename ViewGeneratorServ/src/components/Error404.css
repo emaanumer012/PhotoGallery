@@ -2,7 +2,7 @@
 .error-container {
   margin: 0;
   height: 100vh;
-  background-image: url('./Assets/Error404.png'); /* Relative path to your image */
+  background-image: url('./Assets/Error404.png'); 
   background-size: cover;
   background-position: center;
   display: flex;
