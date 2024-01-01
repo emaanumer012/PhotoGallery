@@ -7,9 +7,6 @@ let curr_usage = {}
 module.exports.checkusage_get = async (req, res) => {
     const id = req.params.id
     try {
-        console.log(
-            "usage array at time of getting the usage for progess " + curr_usage
-        )
         console.log("sending current limit to front at " + new Date())
         await axios.post(`http://localhost:3002/users/${id}/check-usage-time`)
         curr_usage = await Usage.retrieveUsageDetails(id)
@@ -29,13 +26,13 @@ module.exports.checkusage_post = async (req, res) => {
         currUsedLimit: 0,
         resetDate: new Date(),
     })
+    console.log(usage_space)
     res.status(200).json(usage_space)
 }
 
 // add usage as user uploads and deletes
 module.exports.addusage_post = async (req, res) => {
     const id = req.params.userId
-    console.log(id + " in addusage.post")
     const fileSize = parseFloat(req.params.fileSizeMB)
     const curr_usage = await Usage.retrieveUsageDetails(id)
     if (curr_usage.currUsedLimit + fileSize <= LIMIT) {

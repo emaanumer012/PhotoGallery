@@ -69,6 +69,7 @@ module.exports.checkstorage_post = async (req, res) => {
         spaceOccupied: 0,
         images: [],
     })
+    console.log("sending " + id + " to ecent vus")
     await axios.post("http://localhost:3003/events", {
         type: "StorageCreated",
         data: id,
