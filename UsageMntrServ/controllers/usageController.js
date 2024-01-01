@@ -2,16 +2,20 @@ const Usage = require("../models/Usage")
 const axios = require("axios")
 const handleErrors = (err) => {}
 const LIMIT = 25
-
+let curr_usage = {}
 // get usage for a current user
 module.exports.checkusage_get = async (req, res) => {
     const id = req.params.id
     try {
-        const curr_usage = await Usage.retrieveUsageDetails(id)
-        await axios.post(`http://usagemntrserv-srv:3002/users/${id}/check-usage-time`)
+        curr_usage = await Usage.retrieveUsageDetails(id)
+        console.log(
+            "usage array at time of getting the usage for progess " + curr_usage
+        )
+        console.log("sending current limit to front at " + new Date())
+        await axios.post(`http://localhost:3002/users/${id}/check-usage-time`)
         res.status(200).json(curr_usage.currUsedLimit)
     } catch (err) {
-        console.error(err)
+        // console.error(err)
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 }
@@ -35,8 +39,8 @@ module.exports.addusage_post = async (req, res) => {
     const curr_usage = await Usage.retrieveUsageDetails(id)
     if (curr_usage.currUsedLimit + fileSize <= LIMIT) {
         curr_usage.currUsedLimit += fileSize
-        console.log(curr_usage.currUsedLimit)
         await curr_usage.save()
+        console.log("done saving current limit in mongo at " + new Date())
 
         res.status(200).json({
             success: true,
@@ -61,7 +65,6 @@ module.exports.addusage_post = async (req, res) => {
 // clear usage after 24 hours
 module.exports.checkusagetime_post = async (req, res) => {
     const id = req.params.id
-    console.log(id)
     try {
         // Retrieve usage details for the user
         const curr_usage = await Usage.retrieveUsageDetails(id)
@@ -90,7 +93,7 @@ module.exports.checkusagetime_post = async (req, res) => {
             })
         }
     } catch (err) {
-        console.error(err)
+        // console.error(err)
         res.status(500).json({ success: false, error: "Internal Server Error" })
     }
 }

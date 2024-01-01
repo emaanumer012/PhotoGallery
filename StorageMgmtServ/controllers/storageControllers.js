@@ -14,7 +14,6 @@ const bucket = bucket_storage.bucket(bucketName)
 const multer = Multer({
     bucket_storage: Multer.memoryStorage(),
 })
-let curr_user = {}
 module.exports.checkstorage_get = async (req, res) => {
     // get userid from params
     const id = req.params.id
@@ -37,7 +36,7 @@ module.exports.getimages_get = async (req, res) => {
     }
     const id = req.params.id
     try {
-        curr_user = await storage.retrieveUserDetails(id)
+        const curr_user = await storage.retrieveUserDetails(id)
 
         // Array to store signed URLs for each image
         const signedUrls = []
@@ -64,17 +63,12 @@ module.exports.getimages_get = async (req, res) => {
 // create storage for a new user based on id
 module.exports.checkstorage_post = async (req, res) => {
     const id = req.params.id
-    console.log("HELOOOOOOOOOOOOOOOOOOOOO")
-    console.log(id)
-
-    console.log("HELOOOOOOOOOOOOOOOOOOOOO")
-
     const storage_space = await storage.create({
         userId: id,
         spaceOccupied: 0,
         images: [],
     })
-    await axios.post("http://eventmgmtbus-srv:3003/events", {
+    await axios.post("http://localhost:3003/events", {
         type: "StorageCreated",
         data: id,
     })
@@ -85,6 +79,7 @@ module.exports.checkstorage_post = async (req, res) => {
 module.exports.addimage_post = async (req, res) => {
     const userId = req.body.id
     const fileSizeMB = req.body.size / (1024 * 1024)
+    const curr_user = await storage.retrieveUserDetails(userId)
     try {
         if (curr_user.spaceOccupied + fileSizeMB <= STORAGE_LIMIT) {
             const originalName = req.file.originalname
@@ -102,6 +97,12 @@ module.exports.addimage_post = async (req, res) => {
 
             blobStream.on("finish", async () => {
                 const imageURL = `${blob.name}`
+                console.log("Image uploaded to bucket:", imageURL)
+
+                await axios.post("http://localhost:3003/events", {
+                    type: "ImageAdded",
+                    data: { userId, fileSizeMB },
+                })
 
                 // Update the user's document in the database
                 try {
@@ -123,11 +124,6 @@ module.exports.addimage_post = async (req, res) => {
                         },
                         { new: true }
                     )
-                    console.log("Image uploaded to bucket:", imageURL)
-                    await axios.post("http://eventmgmtbus-srv:3003/events", {
-                        type: "ImageAdded",
-                        data: { userId, fileSizeMB },
-                    })
 
                     res.status(200).json({ success: true, imageURL })
                 } catch (err) {
@@ -154,6 +150,7 @@ module.exports.addimage_post = async (req, res) => {
 module.exports.deleteimage_post = async (req, res) => {
     const userId = req.body.id
     const filePath = req.body.originalUrl
+    console.log("file path " + filePath)
 
     try {
         const user = await storage.retrieveUserDetails(userId)
@@ -162,61 +159,59 @@ module.exports.deleteimage_post = async (req, res) => {
         const imageIndex = user.images.findIndex(
             (image) => image.imageURL === filePath
         )
+        // Delete the file from the storage bucket
+        const file = bucket.file(filePath)
+        const exists = await file.exists()
+        const fileSizeMB = user.images[imageIndex].fileSizeMB
 
-        if (imageIndex !== -1) {
-            // Get the size of the image to be deleted
-            const fileSizeMB = user.images[imageIndex].fileSizeMB
+        console.log("My bucket data is " + filePath)
 
-            // Remove the image from the images array
-            user.images.splice(imageIndex, 1)
+        if (exists[0]) {
+            await file.delete()
+            await axios.post("http://localhost:3003/events", {
+                type: "ImageDeleted",
+                data: { userId, fileSizeMB },
+            })
+            if (imageIndex !== -1) {
+                // Remove the image from the images array
+                user.images.splice(imageIndex, 1)
 
-            // Update the space occupied
-            user.spaceOccupied -= fileSizeMB
+                // Update the space occupied
+                user.spaceOccupied -= fileSizeMB
 
-            // Save the updated user document to the database
-            await storage.findOneAndUpdate(
-                { userId: user.userId },
-                {
-                    $set: {
-                        images: user.images,
-                        spaceOccupied: user.spaceOccupied,
-                    },
-                },
-                { new: true }
-            )
-
-            // Delete the file from the storage bucket
-            const file = bucket.file(filePath)
-            const exists = await file.exists()
-
-            if (exists[0]) {
-                await file.delete()
-                console.log("File deleted successfully.")
-                await axios.post("http://eventmgmtbus-srv:3003/events", {
-                    type: "ImageDeleted",
-                    data: { userId, fileSizeMB },
-                })
-            } else {
-                console.log("File does not exist.")
+                try {
+                    // Save the updated user document to the database
+                    // await storage.findOneAndUpdate(
+                    //     { userId: user.userId },
+                    //     {
+                    //         $set: {
+                    //             images: user.images,
+                    //             spaceOccupied: user.spaceOccupied,
+                    //         },
+                    //     },
+                    //     { new: true }
+                    // )
+                    await user.save()
+                    console.log("deleted from mongo")
+                    res.status(200).json({
+                        success: true,
+                        message: "Deleted from mongodb",
+                    })
+                } catch (err) {
+                    res.status(500).json({
+                        success: true,
+                        message: "Couldn't delete file from mongodb",
+                    })
+                }
             }
-
-            res.status(200).json({ success: true })
         } else {
             res.status(404).json({ success: false, error: "Image not found" })
         }
     } catch (error) {
         console.error("Error deleting image:", error)
-        res.status(500).json({ success: false, error: "Internal server error" })
+        res.status(500).json({
+            success: false,
+            error: "Internal server error. Couldn't delete from bucket",
+        })
     }
 }
-
-// module.exports.alerts_post = async (req, res) => {
-//     const type = req.params.type
-//     const message = req.params.message
-//     alerts = { type: type, message: message }
-//     console.log(alerts)
-// }
-// module.exports.alerts_get = async (req, res) => {
-//     console.log("sending limit alert back")
-//     res.status(200).json(alerts)
-// }

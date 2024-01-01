@@ -18,11 +18,11 @@ const UsageMonitoring = ({
         console.log("usage details called")
         try {
             const res = await axios.get(
-                `http://liamevault.com/users/${id}/usage`
+                `http://localhost:3002/users/${id}/usage`
             )
-            await new Promise((resolve) => setTimeout(resolve, 1000))
             const currentUsage = res.data
             setDailyUsage(currentUsage)
+            console.log("getting current limit at " + new Date())
             console.log("getting current limit" + currentUsage)
             if (parseInt(currentUsage, 10) === 25) {
                 setShowUsageExceededModal(true)
@@ -35,8 +35,8 @@ const UsageMonitoring = ({
             console.log(err.message)
         }
     }
-    const updateProgressBar = () => {
-        fetchUsageDetails()
+    const updateProgressBar = async () => {
+        await fetchUsageDetails()
     }
     useEffect(() => {
         if (imageEvent) {

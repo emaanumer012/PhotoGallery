@@ -17,7 +17,7 @@ const Dashboard = (props) => {
     const [disableDelete, setDisableDelete] = useState(false)
     const [imageEvent, setImageEvent] = useState(false)
     const { id, name } = props
-    const navigate = useLocation();
+    const navigate = useLocation()
     const handleDataFromChildren = (value) => {
         setUploadButtonDisabled(value)
         console.log("disable button is now " + isUploadButtonDisabled)
@@ -31,7 +31,7 @@ const Dashboard = (props) => {
         try {
             // console.log(id)
             const res = await axios.get(
-                `http://liamevault.com/users/${id}/get-images`
+                `http://localhost:3001/users/${id}/get-images`
             )
             setImages(res.data)
             console.log(res.data)
@@ -44,7 +44,6 @@ const Dashboard = (props) => {
         id && fetchStorageDetails()
     }, [id, navigate.pathname])
 
-    
     const updateImages = (newImages) => {
         setImages(newImages)
     }
@@ -72,7 +71,7 @@ const Dashboard = (props) => {
                         setImageEvent={setImageEvent}
                     />
                 </div>
-                <br/>
+                <br />
             </div>
             {/* <div>
                 <Monitoring
