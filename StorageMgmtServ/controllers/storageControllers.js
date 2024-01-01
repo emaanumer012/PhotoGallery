@@ -32,6 +32,7 @@ module.exports.getimages_get = async (req, res) => {
     const options = {
         version: "v4",
         action: "read",
+        responseDisposition: "attachment",
         expires: Date.now() + 15 * 60 * 1000, // Timestamp (in milliseconds) when the URL expires
     }
     const id = req.params.id
@@ -150,7 +151,6 @@ module.exports.addimage_post = async (req, res) => {
 module.exports.deleteimage_post = async (req, res) => {
     const userId = req.body.id
     const filePath = req.body.originalUrl
-    console.log("file path " + filePath)
 
     try {
         const user = await storage.retrieveUserDetails(userId)

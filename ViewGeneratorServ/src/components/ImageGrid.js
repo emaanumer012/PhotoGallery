@@ -138,10 +138,13 @@ const ImageGrid = ({
             const updatedImages = images.filter(
                 (_, index) => index !== currentIndex
             )
+            const res = await axios.get(
+                `http://localhost:3001/users/${id}/get-images`
+            )
             updateImages(updatedImages)
-            console.log(images[currentIndex])
             let imageToDelete = images[currentIndex]
             imageToDelete["id"] = id
+            imageToDelete["originalUrl"] = res.data[currentIndex].originalUrl
             try {
                 await axios.post(
                     "http://localhost:3001/delete-image",
