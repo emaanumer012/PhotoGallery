@@ -7,12 +7,13 @@ let curr_usage = {}
 module.exports.checkusage_get = async (req, res) => {
     const id = req.params.id
     try {
-        curr_usage = await Usage.retrieveUsageDetails(id)
         console.log(
             "usage array at time of getting the usage for progess " + curr_usage
         )
         console.log("sending current limit to front at " + new Date())
         await axios.post(`http://localhost:3002/users/${id}/check-usage-time`)
+        curr_usage = await Usage.retrieveUsageDetails(id)
+
         res.status(200).json(curr_usage.currUsedLimit)
     } catch (err) {
         // console.error(err)
