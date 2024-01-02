@@ -65,6 +65,8 @@ const ImageViewer = ({ imageUrl, ImagefileName, onClose }) => {
         <br/>
         <p style={{ marginbottom: '10px' }}>
           <strong>File Name:</strong> {ImagefileName}
+          <br/>
+          <strong>File size:</strong> {"56"}
         </p>
       </div>
     </div>
