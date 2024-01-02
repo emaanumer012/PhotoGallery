@@ -53,6 +53,7 @@ module.exports.getimages_get = async (req, res) => {
                 fileName: image.originalName,
                 originalUrl: image.imageURL,
                 signedUrl: url,
+                size: image.fileSizeMB.toFixed(1),
             })
         }
         res.status(200).json(signedUrls)

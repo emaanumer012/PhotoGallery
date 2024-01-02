@@ -50,6 +50,7 @@ const ImageGrid = ({
                     signedUrl: reader.result,
                     fileName: file.name,
                     originalUrl: file.originalUrl,
+                    size: (file.size / (1024 * 1024)).toFixed(1),
                 })
             }
             reader.readAsDataURL(file)
@@ -145,6 +146,7 @@ const ImageGrid = ({
             let imageToDelete = images[currentIndex]
             imageToDelete["id"] = id
             imageToDelete["originalUrl"] = res.data[currentIndex].originalUrl
+            imageToDelete["size"] = res.data[currentIndex].fileSizeMB
             try {
                 await axios.post(
                     "http://localhost:3001/delete-image",
@@ -320,6 +322,9 @@ const ImageGrid = ({
                                         }
                                         ImagefileName={
                                             images[selectedImage].fileName
+                                        }
+                                        ImageFileSize={
+                                            images[selectedImage].size
                                         }
                                         onClose={handleCloseImageViewer}
                                     />
