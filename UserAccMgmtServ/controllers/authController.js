@@ -44,11 +44,11 @@ module.exports.signup_post = async (req, res) => {
         const user = await User.create({ name, email, password })
         const token = createToken(user._id)
         // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
-        await axios.post("http://eventmgmtbus-srv:3003/events", {
+        await axios.post("http://localhost:3003/events", {
             type: "UserCreated",
             data: user._id,
-            name:user.name,
-            email:email
+            name: user.name,
+            email: email,
         })
         // await axios.post("http://storagemgmtserv-srv:3001/events", {
         //     type: "UserCreated",
@@ -63,7 +63,7 @@ module.exports.signup_post = async (req, res) => {
         //     email:email
         // })
         console.log({ user, token })
-        res.status(201).json({ user: user._id, token: token,name:user.name })
+        res.status(201).json({ user: user._id, token: token, name: user.name })
     } catch (err) {
         const errors = handleErrors(err)
         res.status(400).json(errors)
@@ -79,7 +79,11 @@ module.exports.login_post = async (req, res) => {
             const token = createToken(user._id)
             console.log(user)
             // res.cookie("jwt", token, { httpOnly: true, maxAge: maxAge * 1000 })
-            res.status(200).json({ user: user._id, token: token,name:user.name })
+            res.status(200).json({
+                user: user._id,
+                token: token,
+                name: user.name,
+            })
         }
     } catch (err) {
         const errors = handleErrors(err)

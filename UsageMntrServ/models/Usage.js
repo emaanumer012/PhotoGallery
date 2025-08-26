@@ -15,10 +15,8 @@ const usageSchema = new mongoose.Schema({
 
 // find storage details based on id
 usageSchema.statics.retrieveUsageDetails = async function (userId) {
-    console.log(userId)
     stringId = String(userId)
     const usage = await this.findOne({ userId: stringId })
-    console.log(usage)
     if (usage) {
         return usage
     }

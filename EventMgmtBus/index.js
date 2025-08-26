@@ -9,21 +9,21 @@ app.use(bodyParser.json())
 
 const events = []
 
-app.post("/events", (req, res) => {
+app.post("/events", async (req, res) => {
     const event = req.body
 
     events.push(event)
 
-    axios.post("http://useraccmgmt-srv:3006/events", event).catch((err) => {
+    await axios.post("http://localhost:3006/events", event).catch((err) => {
         console.log(err.message)
     })
-    axios.post("http://storagemgmtserv-srv:3001/events", event).catch((err) => {
+    await axios.post("http://localhost:3001/events", event).catch((err) => {
         console.log(err.message)
     })
-    axios.post("http://usagemntrserv-srv:3002/events", event).catch((err) => {
+    await axios.post("http://localhost:3002/events", event).catch((err) => {
         console.log(err.message)
     })
-    axios.post("http://loggingserv-srv:3009/events", event).catch((err) => {
+    await axios.post("http://localhost:3009/events", event).catch((err) => {
         console.log(err.message)
     })
     res.send({ status: "OK" })

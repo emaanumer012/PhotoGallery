@@ -6,7 +6,7 @@ const cors = require("cors")
 const storageRoutes = require("./routes/storageRoutes")
 
 const app = express()
-app.use(bodyParser.json())
+app.use(bodyParser.json({ limit: "10mb" }))
 app.use(cors())
 const port = process.env.PORT || 3001
 
@@ -21,7 +21,7 @@ const handleEvent = async (type, data) => {
     if (type === "UserCreated") {
         console.log("User Created")
         console.log(data)
-        await axios.post(`http://storagemgmtserv-srv:3001/users/${data}/storage`)
+        await axios.post(`http://localhost:3001/users/${data}/storage`)
     }
 }
 

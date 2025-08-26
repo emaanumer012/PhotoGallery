@@ -14,7 +14,7 @@ const StorageMonitoring = ({ onChange, id, imageEvent, setImageEvent }) => {
     const fetchUsedStorageDetails = async () => {
         try {
             const response = await axios.get(
-                `http://liamevault.com/users/${id}/storage`
+                `http://localhost:3001/users/${id}/storage`
             )
             await new Promise((resolve) => setTimeout(resolve, 1000))
 

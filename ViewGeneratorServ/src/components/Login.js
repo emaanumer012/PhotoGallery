@@ -33,30 +33,28 @@ const Login = ({ handleLogin }) => {
         // Continue with form submission
 
         try {
-            const res = await axios.post("http://liamevault.com/login", {
+            const res = await axios.post("http://localhost:3006/login", {
                 email,
                 password,
             })
 
-            const jsonObject = JSON.stringify(res.data);
-            localStorage.setItem("authToken",jsonObject)
+            const jsonObject = JSON.stringify(res.data)
+            localStorage.setItem("authToken", jsonObject)
             // await new Promise((resolve) => setTimeout(resolve, 1000))
-    //         onLogin();
-    // await handleLogin(email,password);
+            //         onLogin();
+            // await handleLogin(email,password);
 
-
-    //         // setAuthToken(token)
+            //         // setAuthToken(token)
             setEmail("")
             setPassword("")
-            window.location.href = '/home'
+            window.location.href = "/home"
             // navigate("/home")
         } catch (err) {
-            console.log(err.response.data||err)
+            console.log(err.response.data || err)
             emailError.textContent = err.response.data.email
             passwordError.textContent = err.response.data.password
         }
     }
-
 
     return (
         <div
